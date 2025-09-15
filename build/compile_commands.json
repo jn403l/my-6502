@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/jn403l/Documents/my-6502/build",
+  "command": "/usr/bin/c++   -g -std=gnu++17 -o CMakeFiles/main.dir/main.cpp.o -c /home/jn403l/Documents/my-6502/main.cpp",
+  "file": "/home/jn403l/Documents/my-6502/main.cpp",
+  "output": "CMakeFiles/main.dir/main.cpp.o"
+}
+]
