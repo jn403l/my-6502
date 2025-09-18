@@ -10,12 +10,24 @@ public:
 	virtual void TearDown() { ; }
 };
 
+
 static void VerifyUnmodifiedFlagsFromLDA(const CPU &cpu, const CPU &CPUCopy) {
 	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
 	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
 	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
 	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
 	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);          
+}
+
+TEST_F(My6502Test1, CPUDoesNothingWhenWeExecuteZeroCycles) {
+  // given:
+  const s32 num_cycles = 0;
+
+  // when:
+  s32 CyclesUsed = cpu.Execute(2, mem);
+
+  // then
+	EXPECT_EQ(CyclesUsed, 0);
 }
 
 TEST_F(My6502Test1, LDAImmediateCanLoadAValueIntoTheARegister) {
