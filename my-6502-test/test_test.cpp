@@ -19,10 +19,11 @@ TEST_F(My6502Test1, LDAImmediateCanLoadAValueIntoTheARegister) {
 
 	// when:
 	CPU CPUCopy = cpu;
-	cpu.Execute(2, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(2, mem); // immediate(2) + jump(6)
 
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x84);
+	EXPECT_EQ(CyclesUsed, 2);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_TRUE(cpu.negativeFlag);
 	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
@@ -42,10 +43,11 @@ TEST_F(My6502Test1, LDAZeroPageCanLoadAValueIntoTheARegister) {
 
 	// when:
 	CPU CPUCopy = cpu;
-	cpu.Execute(3, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(3, mem); // immediate(2) + jump(6)
 
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x69);
+	EXPECT_EQ(CyclesUsed, 3);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_FALSE(cpu.negativeFlag);
 	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
@@ -66,10 +68,11 @@ TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegister) {
 
 	// when:
 	CPU CPUCopy = cpu;  
-	cpu.Execute(4, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(4, mem); // immediate(2) + jump(6)
 
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x69);
+	EXPECT_EQ(CyclesUsed, 4);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_FALSE(cpu.negativeFlag);
 	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
@@ -90,10 +93,11 @@ TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
 
 	// when:
 	CPU CPUCopy = cpu;
-	cpu.Execute(4, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(4, mem); // immediate(2) + jump(6)
 
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x69);
+	EXPECT_EQ(CyclesUsed, 4);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_FALSE(cpu.negativeFlag);
 	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);

@@ -6,6 +6,7 @@ using Byte = unsigned char;
 using Word = unsigned short;
 
 using u32 = unsigned int;
+using s32 = signed int;
 
 struct Mem {
   static constexpr u32 MAX_MEM = 1024 * 64;
@@ -94,7 +95,8 @@ struct CPU {
 		negativeFlag = (accumulator & 0b10000000) > 0;
 	}
 
-  void Execute(u32 cycles, Mem &memory) {
+    s32 Execute(u32 cycles, Mem &memory) {
+    const u32 cyclesRequested = cycles;           
     while (cycles > 0) {
       Byte Ins = FetchByte(cycles, memory);
 			switch (Ins) {
@@ -128,7 +130,7 @@ struct CPU {
 				printf("Instruction not handled \n");
 			}	break;
 			}
-                        
-		}
-	}
+    }
+    return cyclesRequested - cycles;      
+  }
 };

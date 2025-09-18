@@ -1,1 +1,4 @@
 1:My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister
+2:My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister
+3:My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister
+4:My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps
