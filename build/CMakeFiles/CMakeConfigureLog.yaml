@@ -527,3 +527,42 @@ events:
       
       
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/CheckCSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/usr/share/cmake-3.28/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "/usr/share/cmake-3.28/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "external/googletest/googletest/cmake/internal_utils.cmake:66 (find_package)"
+      - "external/googletest/googletest/CMakeLists.txt:83 (config_compiler_and_linker)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/home/jn403l/Documents/my-6502/build/CMakeFiles/CMakeScratch/TryCompile-Ot6Dha"
+      binary: "/home/jn403l/Documents/my-6502/build/CMakeFiles/CMakeScratch/TryCompile-Ot6Dha"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/jn403l/Documents/my-6502/build/CMakeFiles/CMakeScratch/TryCompile-Ot6Dha'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e3052/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_e3052.dir/build.make CMakeFiles/cmTC_e3052.dir/build
+        gmake[1]: Entering directory '/home/jn403l/Documents/my-6502/build/CMakeFiles/CMakeScratch/TryCompile-Ot6Dha'
+        Building C object CMakeFiles/cmTC_e3052.dir/src.c.o
+        /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_e3052.dir/src.c.o -c /home/jn403l/Documents/my-6502/build/CMakeFiles/CMakeScratch/TryCompile-Ot6Dha/src.c
+        Linking C executable cmTC_e3052
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e3052.dir/link.txt --verbose=1
+        /usr/bin/cc CMakeFiles/cmTC_e3052.dir/src.c.o -o cmTC_e3052 
+        gmake[1]: Leaving directory '/home/jn403l/Documents/my-6502/build/CMakeFiles/CMakeScratch/TryCompile-Ot6Dha'
+        
+      exitCode: 0
+...

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <iostream>
 
 //TODO: use value uint_8t etc
 using Byte = unsigned char;
@@ -40,7 +39,7 @@ struct Mem {
 struct CPU {
 
   Word programCounter;
-  Byte stackPointer;
+  Word stackPointer;
 
   Byte accumulator, indexRegX, indexRegY;
 
@@ -75,7 +74,6 @@ struct CPU {
 
 		Data |= (memory[programCounter] << 8);
     programCounter++;
-//    cycles -= 3;
     cycles -= 2;    
 		return Data;
   }  

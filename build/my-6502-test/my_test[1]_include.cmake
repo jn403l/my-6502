@@ -1,0 +1,5 @@
+if(EXISTS "/home/jn403l/Documents/my-6502/build/my-6502-test/my_test[1]_tests.cmake")
+  include("/home/jn403l/Documents/my-6502/build/my-6502-test/my_test[1]_tests.cmake")
+else()
+  add_test(my_test_NOT_BUILT my_test_NOT_BUILT)
+endif()

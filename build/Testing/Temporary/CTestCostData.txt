@@ -1,0 +1,4 @@
+TestTopic.TrivialEquality 1 0.00510053
+TestTopic.MoreEqualityTests 1 0.00377832
+My6502Test1.RunALittleInlineProgram 4 0.00109083
+---

@@ -1,0 +1,30 @@
+Start testing: Sep 18 11:50 JST
+----------------------------------------------------------
+1/1 Testing: My6502Test1.RunALittleInlineProgram
+1/1 Test: My6502Test1.RunALittleInlineProgram
+Command: "/home/jn403l/Documents/my-6502/build/my-6502-test/test_test" "--gtest_filter=My6502Test1.RunALittleInlineProgram" "--gtest_also_run_disabled_tests"
+Directory: /home/jn403l/Documents/my-6502/build/my-6502-test
+"My6502Test1.RunALittleInlineProgram" start time: Sep 18 11:50 JST
+Output:
+----------------------------------------------------------
+Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletest/src/gtest_main.cc
+Note: Google Test filter = My6502Test1.RunALittleInlineProgram
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from My6502Test1
+[ RUN      ] My6502Test1.RunALittleInlineProgram
+[       OK ] My6502Test1.RunALittleInlineProgram (0 ms)
+[----------] 1 test from My6502Test1 (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"My6502Test1.RunALittleInlineProgram" end time: Sep 18 11:50 JST
+"My6502Test1.RunALittleInlineProgram" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Sep 18 11:50 JST
