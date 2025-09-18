@@ -30,6 +30,18 @@ TEST_F(My6502Test1, CPUDoesNothingWhenWeExecuteZeroCycles) {
 	EXPECT_EQ(CyclesUsed, 0);
 }
 
+TEST_F(My6502Test1, CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction) {
+	// given:
+  mem[0XFFFC] = CPU::INS_LDA_IMMEDIATE;
+	mem[0XFFFD] = 0x84;
+
+	// when:
+	s32 CyclesUsed = cpu.Execute(1, mem); // immediate(2) + jump(6)
+
+	// then:
+	EXPECT_EQ(CyclesUsed, 2);
+}
+
 TEST_F(My6502Test1, LDAImmediateCanLoadAValueIntoTheARegister) {
 	// given:
   // start - inline a little program
