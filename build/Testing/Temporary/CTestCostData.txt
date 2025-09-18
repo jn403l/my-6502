@@ -1,8 +1,8 @@
 TestTopic.TrivialEquality 1 0.00510053
 TestTopic.MoreEqualityTests 1 0.00377832
 My6502Test1.RunALittleInlineProgram 5 0
-My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister 10 0.000538239
-My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister 8 0.00105445
-My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister 7 0.000669095
-My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps 5 0.00179067
+My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister 11 0.002693
+My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister 9 0.00245214
+My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister 8 0.00318416
+My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps 6 0.00321658
 ---

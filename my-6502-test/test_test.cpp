@@ -10,6 +10,14 @@ public:
 	virtual void TearDown() { ; }
 };
 
+static void VerifyUnmodifiedFlagsFromLDA(const CPU &cpu, const CPU &CPUCopy) {
+	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
+	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
+	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
+	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
+	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);          
+}
+
 TEST_F(My6502Test1, LDAImmediateCanLoadAValueIntoTheARegister) {
 	// given:
   // start - inline a little program
@@ -26,11 +34,7 @@ TEST_F(My6502Test1, LDAImmediateCanLoadAValueIntoTheARegister) {
 	EXPECT_EQ(CyclesUsed, 2);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_TRUE(cpu.negativeFlag);
-	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
-	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
-	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
-	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
-	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);        
+	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);
 }
 
 TEST_F(My6502Test1, LDAZeroPageCanLoadAValueIntoTheARegister) {
@@ -50,11 +54,7 @@ TEST_F(My6502Test1, LDAZeroPageCanLoadAValueIntoTheARegister) {
 	EXPECT_EQ(CyclesUsed, 3);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_FALSE(cpu.negativeFlag);
-	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
-	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
-	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
-	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
-	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);        
+	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);        
 }
 
 TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegister) {
@@ -75,11 +75,7 @@ TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegister) {
 	EXPECT_EQ(CyclesUsed, 4);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_FALSE(cpu.negativeFlag);
-	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
-	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
-	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
-	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
-	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);        
+	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);        
 }
 
 TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
@@ -100,11 +96,7 @@ TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
 	EXPECT_EQ(CyclesUsed, 4);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_FALSE(cpu.negativeFlag);
-	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
-	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
-	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
-	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
-	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);
+	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);        
 }
 
 #if 0
