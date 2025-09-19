@@ -1,0 +1,5 @@
+(1) Handle reset properly
+> The implementation of the chip reset is still wrong. 
+> Address $FFFC and $FFFD contain the address where execution begins. 
+> Execution does NOT begin at $FFFC as you have done unless those two location contain $FC $FF. 
+> This also invalidates all tests.
