@@ -21,13 +21,13 @@ static void VerifyUnmodifiedFlagsFromLDA(const CPU &cpu, const CPU &CPUCopy) {
 
 TEST_F(My6502Test1, CPUDoesNothingWhenWeExecuteZeroCycles) {
   // given:
-  const s32 num_cycles = 0;
+  constexpr s32 num_cycles = 0;
 
   // when:
   s32 CyclesUsed = cpu.Execute(2, mem);
 
   // then
-	EXPECT_EQ(CyclesUsed, 0);
+	EXPECT_EQ(CyclesUsed, num_cycles);
 }
 
 TEST_F(My6502Test1, CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction) {
@@ -40,6 +40,19 @@ TEST_F(My6502Test1, CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstructi
 
 	// then:
 	EXPECT_EQ(CyclesUsed, 2);
+}
+
+TEST_F(My6502Test1, ExecutingABadInstructionDoesNotInfiniteLoop) {
+	// given:
+  mem[0XFFFC] = 0x0;
+  mem[0XFFFD] = 0x0;
+	constexpr s32 num_cycles = 1;
+
+	// when:
+	s32 CyclesUsed = cpu.Execute(num_cycles, mem); // immediate(2) + jump(6)
+
+	// then:
+	EXPECT_EQ(CyclesUsed, num_cycles);
 }
 
 TEST_F(My6502Test1, LDAImmediateCanLoadAValueIntoTheARegister) {

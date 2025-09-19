@@ -1,8 +1,12 @@
 TestTopic.TrivialEquality 1 0.00510053
 TestTopic.MoreEqualityTests 1 0.00377832
 My6502Test1.RunALittleInlineProgram 5 0
-My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister 13 0.0013169
-My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister 11 0.00215179
-My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister 10 0.00236631
-My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps 8 0.00263041
+My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister 18 0.000216596
+My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister 16 0.000227524
+My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister 15 0.000264024
+My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps 13 0.00037367
+My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles 0 0
+My6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction 4 0.00117095
+My6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop 4 0.00123596
 ---
+My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles

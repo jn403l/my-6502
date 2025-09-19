@@ -1,10 +1,105 @@
-Start testing: Sep 19 04:16 JST
+Start testing: Sep 19 10:37 JST
 ----------------------------------------------------------
-1/4 Testing: My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister
-1/4 Test: My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister
+1/7 Testing: My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles
+1/7 Test: My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles
+Command: "/home/jn403l/Documents/my-6502/build/my-6502-test/test_test" "--gtest_filter=My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles" "--gtest_also_run_disabled_tests"
+Directory: /home/jn403l/Documents/my-6502/build/my-6502-test
+"My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles" start time: Sep 19 10:37 JST
+Output:
+----------------------------------------------------------
+Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletest/src/gtest_main.cc
+[0;33mNote: Google Test filter = My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles
+[m[0;32m[==========] [mRunning 1 test from 1 test suite.
+[0;32m[----------] [mGlobal test environment set-up.
+[0;32m[----------] [m1 test from My6502Test1
+[0;32m[ RUN      ] [mMy6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles
+Instruction not handled 
+Instruction not handled 
+/home/jn403l/Documents/my-6502/my-6502-test/test_test.cpp:30: Failure
+Expected equality of these values:
+  CyclesUsed
+    Which is: 2
+  num_cycles
+    Which is: 0
+
+[0;31m[  FAILED  ] [mMy6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles (0 ms)
+[0;32m[----------] [m1 test from My6502Test1 (0 ms total)
+
+[0;32m[----------] [mGlobal test environment tear-down
+[0;32m[==========] [m1 test from 1 test suite ran. (0 ms total)
+[0;32m[  PASSED  ] [m0 tests.
+[0;31m[  FAILED  ] [m1 test, listed below:
+[0;31m[  FAILED  ] [mMy6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles
+
+ 1 FAILED TEST
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Failed.
+"My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles" end time: Sep 19 10:37 JST
+"My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/7 Testing: My6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction
+2/7 Test: My6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction
+Command: "/home/jn403l/Documents/my-6502/build/my-6502-test/test_test" "--gtest_filter=My6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction" "--gtest_also_run_disabled_tests"
+Directory: /home/jn403l/Documents/my-6502/build/my-6502-test
+"My6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction" start time: Sep 19 10:37 JST
+Output:
+----------------------------------------------------------
+Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletest/src/gtest_main.cc
+[0;33mNote: Google Test filter = My6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction
+[m[0;32m[==========] [mRunning 1 test from 1 test suite.
+[0;32m[----------] [mGlobal test environment set-up.
+[0;32m[----------] [m1 test from My6502Test1
+[0;32m[ RUN      ] [mMy6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction
+[0;32m[       OK ] [mMy6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction (0 ms)
+[0;32m[----------] [m1 test from My6502Test1 (0 ms total)
+
+[0;32m[----------] [mGlobal test environment tear-down
+[0;32m[==========] [m1 test from 1 test suite ran. (0 ms total)
+[0;32m[  PASSED  ] [m1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"My6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction" end time: Sep 19 10:37 JST
+"My6502Test1.CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/7 Testing: My6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop
+3/7 Test: My6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop
+Command: "/home/jn403l/Documents/my-6502/build/my-6502-test/test_test" "--gtest_filter=My6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop" "--gtest_also_run_disabled_tests"
+Directory: /home/jn403l/Documents/my-6502/build/my-6502-test
+"My6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop" start time: Sep 19 10:37 JST
+Output:
+----------------------------------------------------------
+Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletest/src/gtest_main.cc
+[0;33mNote: Google Test filter = My6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop
+[m[0;32m[==========] [mRunning 1 test from 1 test suite.
+[0;32m[----------] [mGlobal test environment set-up.
+[0;32m[----------] [m1 test from My6502Test1
+[0;32m[ RUN      ] [mMy6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop
+Instruction not handled 
+[0;32m[       OK ] [mMy6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop (0 ms)
+[0;32m[----------] [m1 test from My6502Test1 (0 ms total)
+
+[0;32m[----------] [mGlobal test environment tear-down
+[0;32m[==========] [m1 test from 1 test suite ran. (0 ms total)
+[0;32m[  PASSED  ] [m1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"My6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop" end time: Sep 19 10:37 JST
+"My6502Test1.ExecutingABadInstructionDoesNotInfiniteLoop" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/7 Testing: My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister
+4/7 Test: My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister
 Command: "/home/jn403l/Documents/my-6502/build/my-6502-test/test_test" "--gtest_filter=My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister" "--gtest_also_run_disabled_tests"
 Directory: /home/jn403l/Documents/my-6502/build/my-6502-test
-"My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister" start time: Sep 19 04:16 JST
+"My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister" start time: Sep 19 10:37 JST
 Output:
 ----------------------------------------------------------
 Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletest/src/gtest_main.cc
@@ -14,24 +109,24 @@ Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletes
 [0;32m[----------] [m1 test from My6502Test1
 [0;32m[ RUN      ] [mMy6502Test1.LDAImmediateCanLoadAValueIntoTheARegister
 [0;32m[       OK ] [mMy6502Test1.LDAImmediateCanLoadAValueIntoTheARegister (0 ms)
-[0;32m[----------] [m1 test from My6502Test1 (1 ms total)
+[0;32m[----------] [m1 test from My6502Test1 (0 ms total)
 
 [0;32m[----------] [mGlobal test environment tear-down
-[0;32m[==========] [m1 test from 1 test suite ran. (1 ms total)
+[0;32m[==========] [m1 test from 1 test suite ran. (0 ms total)
 [0;32m[  PASSED  ] [m1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister" end time: Sep 19 04:16 JST
+"My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister" end time: Sep 19 10:37 JST
 "My6502Test1.LDAImmediateCanLoadAValueIntoTheARegister" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/4 Testing: My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister
-2/4 Test: My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister
+5/7 Testing: My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister
+5/7 Test: My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister
 Command: "/home/jn403l/Documents/my-6502/build/my-6502-test/test_test" "--gtest_filter=My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister" "--gtest_also_run_disabled_tests"
 Directory: /home/jn403l/Documents/my-6502/build/my-6502-test
-"My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister" start time: Sep 19 04:16 JST
+"My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister" start time: Sep 19 10:37 JST
 Output:
 ----------------------------------------------------------
 Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletest/src/gtest_main.cc
@@ -40,25 +135,25 @@ Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletes
 [0;32m[----------] [mGlobal test environment set-up.
 [0;32m[----------] [m1 test from My6502Test1
 [0;32m[ RUN      ] [mMy6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister
-[0;32m[       OK ] [mMy6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister (1 ms)
-[0;32m[----------] [m1 test from My6502Test1 (1 ms total)
+[0;32m[       OK ] [mMy6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister (0 ms)
+[0;32m[----------] [m1 test from My6502Test1 (0 ms total)
 
 [0;32m[----------] [mGlobal test environment tear-down
-[0;32m[==========] [m1 test from 1 test suite ran. (1 ms total)
+[0;32m[==========] [m1 test from 1 test suite ran. (0 ms total)
 [0;32m[  PASSED  ] [m1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister" end time: Sep 19 04:16 JST
+"My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister" end time: Sep 19 10:37 JST
 "My6502Test1.LDAZeroPageCanLoadAValueIntoTheARegister" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/4 Testing: My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister
-3/4 Test: My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister
+6/7 Testing: My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister
+6/7 Test: My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister
 Command: "/home/jn403l/Documents/my-6502/build/my-6502-test/test_test" "--gtest_filter=My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister" "--gtest_also_run_disabled_tests"
 Directory: /home/jn403l/Documents/my-6502/build/my-6502-test
-"My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister" start time: Sep 19 04:16 JST
+"My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister" start time: Sep 19 10:37 JST
 Output:
 ----------------------------------------------------------
 Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletest/src/gtest_main.cc
@@ -67,25 +162,25 @@ Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletes
 [0;32m[----------] [mGlobal test environment set-up.
 [0;32m[----------] [m1 test from My6502Test1
 [0;32m[ RUN      ] [mMy6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister
-[0;32m[       OK ] [mMy6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister (1 ms)
-[0;32m[----------] [m1 test from My6502Test1 (1 ms total)
+[0;32m[       OK ] [mMy6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister (0 ms)
+[0;32m[----------] [m1 test from My6502Test1 (0 ms total)
 
 [0;32m[----------] [mGlobal test environment tear-down
-[0;32m[==========] [m1 test from 1 test suite ran. (1 ms total)
+[0;32m[==========] [m1 test from 1 test suite ran. (0 ms total)
 [0;32m[  PASSED  ] [m1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister" end time: Sep 19 04:16 JST
+"My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister" end time: Sep 19 10:37 JST
 "My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegister" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/4 Testing: My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps
-4/4 Test: My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps
+7/7 Testing: My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps
+7/7 Test: My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps
 Command: "/home/jn403l/Documents/my-6502/build/my-6502-test/test_test" "--gtest_filter=My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps" "--gtest_also_run_disabled_tests"
 Directory: /home/jn403l/Documents/my-6502/build/my-6502-test
-"My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps" start time: Sep 19 04:16 JST
+"My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps" start time: Sep 19 10:37 JST
 Output:
 ----------------------------------------------------------
 Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletest/src/gtest_main.cc
@@ -95,17 +190,17 @@ Running main() from /home/jn403l/Documents/my-6502/external/googletest/googletes
 [0;32m[----------] [m1 test from My6502Test1
 [0;32m[ RUN      ] [mMy6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps
 [0;32m[       OK ] [mMy6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps (0 ms)
-[0;32m[----------] [m1 test from My6502Test1 (1 ms total)
+[0;32m[----------] [m1 test from My6502Test1 (0 ms total)
 
 [0;32m[----------] [mGlobal test environment tear-down
-[0;32m[==========] [m1 test from 1 test suite ran. (1 ms total)
+[0;32m[==========] [m1 test from 1 test suite ran. (0 ms total)
 [0;32m[  PASSED  ] [m1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps" end time: Sep 19 04:16 JST
+"My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps" end time: Sep 19 10:37 JST
 "My6502Test1.LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Sep 19 04:16 JST
+End testing: Sep 19 10:37 JST

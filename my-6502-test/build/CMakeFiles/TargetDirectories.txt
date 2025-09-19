@@ -1,2 +1,0 @@
-/home/jn403l/Documents/my-6502/my-6502-test/build/CMakeFiles/edit_cache.dir
-/home/jn403l/Documents/my-6502/my-6502-test/build/CMakeFiles/rebuild_cache.dir
