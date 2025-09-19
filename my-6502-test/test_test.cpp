@@ -24,10 +24,10 @@ TEST_F(My6502Test1, CPUDoesNothingWhenWeExecuteZeroCycles) {
   constexpr s32 num_cycles = 0;
 
   // when:
-  s32 CyclesUsed = cpu.Execute(2, mem);
+  s32 CyclesUsed = cpu.Execute(num_cycles, mem);
 
   // then
-	EXPECT_EQ(CyclesUsed, num_cycles);
+	EXPECT_EQ(CyclesUsed, 0);
 }
 
 TEST_F(My6502Test1, CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstruction) {
@@ -71,6 +71,24 @@ TEST_F(My6502Test1, LDAImmediateCanLoadAValueIntoTheARegister) {
 	EXPECT_EQ(CyclesUsed, 2);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_TRUE(cpu.negativeFlag);
+	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);
+}
+
+TEST_F(My6502Test1, LDAImmediateCanAffectTheZeroFlag) {
+  // given:
+	cpu.accumulator = 0x44;
+  mem[0XFFFC] = CPU::INS_LDA_IMMEDIATE;
+	mem[0XFFFD] = 0x0;
+
+	// when:
+	CPU CPUCopy = cpu;
+	s32 CyclesUsed = cpu.Execute(2, mem); // immediate(2) + jump(6)
+
+	// then:
+	EXPECT_EQ(cpu.accumulator, 0x0);
+	EXPECT_EQ(CyclesUsed, 2);
+	EXPECT_TRUE(cpu.zeroFlag);
+	EXPECT_FALSE(cpu.negativeFlag);
 	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);
 }
 
@@ -136,21 +154,22 @@ TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
 	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);        
 }
 
-#if 0
-#include "main_6502.h"
+TEST_F(My6502Test1, LDAAbsoluteCanLoadAValueIntoTheRegister) {
+  // given:
+  mem[0XFFFC] = CPU::INS_LDA_ABS;
+  mem[0XFFFD] = 0x80;
+  mem[0xFFFE] = 0x44; // 0x4480
+	mem[0x4480] = 0x69;
 
-int main() {
-	Mem mem;
-  CPU cpu;
-  cpu.Reset(mem);
-  // start - inline a little program
-  mem[0xFFFC] = CPU::INS_JSR;
-  mem[0xFFFD] = 0x42;
-  mem[0xFFFE] = 0x42;
-  mem[0x4242] = CPU::INS_LDA_IMMEDIATE;
-	mem[0x4243] = 0x84;
-	// end - inline a little program
-  cpu.Execute(8, mem); //immediate(2) + jump(6)
-	return 0;
+        // when:
+	constexpr s32 expected_cycles = 4;
+	CPU CPUCopy = cpu;
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+
+	// then:
+	EXPECT_EQ(cpu.accumulator, 0x69);
+	EXPECT_EQ(CyclesUsed, expected_cycles);
+	EXPECT_FALSE(cpu.zeroFlag);
+	EXPECT_FALSE(cpu.negativeFlag);
+	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);        
 }
-#endif

@@ -1,1 +1,1 @@
-1:My6502Test1.CPUDoesNothingWhenWeExecuteZeroCycles
+9:My6502Test1.LDAAbsoluteCanLoadAValueIntoTheRegister

@@ -88,7 +88,8 @@ struct CPU {
 	static constexpr Byte INS_LDA_IMMEDIATE = 0xA9;
 	static constexpr Byte INS_LDA_ZEROPAGE	= 0xA5;
 	static constexpr Byte INS_LDA_ZEROPX		= 0xB5;
-	static constexpr Byte INS_JSR						= 0x20;
+  static constexpr Byte INS_JSR = 0x20;
+  static constexpr Byte INS_LDA_ABS = 0xAD;
 
 	void LDASetStatus() {
 		zeroFlag = (accumulator == 0);
@@ -125,7 +126,10 @@ struct CPU {
 				memory.WriteWord(programCounter -1 , stackPointer, cycles);
 				programCounter = SubAddr;
 				cycles--;
-			} break;    
+      } break;
+      case INS_LDA_ABS: {
+        
+      } break;        
 			default: {
 				printf("Instruction not handled \n");
 			}	break;
