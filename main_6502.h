@@ -91,7 +91,8 @@ struct CPU {
   static constexpr Byte INS_JSR = 0x20;
   static constexpr Byte INS_LDA_ABS = 0xAD;
   static constexpr Byte INS_LDA_ABSX = 0xBD;
-  static constexpr Byte INS_LDA_ABSY = 0xB9;  
+  static constexpr Byte INS_LDA_ABSY = 0xB9;
+  static constexpr Byte INS_LDA_INDIRECTX = 0xA1;    
 
 	void LDASetStatus() {
 		zeroFlag = (accumulator == 0);
