@@ -90,6 +90,8 @@ struct CPU {
 	static constexpr Byte INS_LDA_ZEROPX		= 0xB5;
   static constexpr Byte INS_JSR = 0x20;
   static constexpr Byte INS_LDA_ABS = 0xAD;
+  static constexpr Byte INS_LDA_ABSX = 0xBD;
+  static constexpr Byte INS_LDA_ABSY = 0xB9;  
 
 	void LDASetStatus() {
 		zeroFlag = (accumulator == 0);
@@ -128,7 +130,13 @@ struct CPU {
 				cycles--;
       } break;
       case INS_LDA_ABS: {
-        
+
+      } break;
+      case INS_LDA_ABSX: {
+
+      } break;
+      case INS_LDA_ABSY: {
+
       } break;        
 			default: {
 				printf("Instruction not handled \n");
