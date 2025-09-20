@@ -86,6 +86,12 @@ struct CPU {
     return Data;
   }
 
+  Word ReadWord(Word address, s32 &cycles, Mem &memory) {
+    Byte loByte = ReadByte(address, cycles, memory);
+    Byte hiByte = ReadByte(address + 1, cycles, memory);
+    return loByte | (hiByte << 8);
+  }  
+
   static constexpr Byte INS_LDA_IMMEDIATE = 0xA9;
 	static constexpr Byte INS_LDA_ZEROPAGE	= 0xA5;
 	static constexpr Byte INS_LDA_ZEROPX		= 0xB5;
@@ -151,9 +157,25 @@ struct CPU {
         if ((AbsAddressY - AbsAddress) >= 0xFF) {
           cycles--;
         }
-      } break;        
+      } break;
+      case INS_LDA_INDIRECTX: {
+        Byte zPAddress = FetchByte(cycles, memory);
+        zPAddress += indexRegX;
+        cycles--;
+        Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
+        accumulator = ReadByte(effectiveAddr, cycles, memory);
+      } break;
+      case INS_LDA_INDIRECTY: {
+        Byte zPAddress = FetchByte(cycles, memory);
+        Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
+        Word effectiveAddrY = effectiveAddr + indexRegY;
+        accumulator = ReadByte(effectiveAddrY, cycles, memory);
+        if ((effectiveAddrY - effectiveAddr) >= 0xFF) {
+          cycles--;
+        }
+      } break;       
 			default: {
-        printf("Instruction not handled \n");
+        printf("Instruction %d not handled \n", Ins);
         throw -1;                  
 			}	break;
 			}
