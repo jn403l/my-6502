@@ -4,6 +4,7 @@
 CMakeFiles/main.dir/main_6502.cpp.o: /home/jn403l/Documents/my-6502/main_6502.cpp \
   /home/jn403l/Documents/my-6502/main_6502.h \
   /usr/include/alloca.h \
+  /usr/include/assert.h \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/pstl/pstl_config.h \
@@ -74,6 +75,8 @@ CMakeFiles/main.dir/main_6502.cpp.o: /home/jn403l/Documents/my-6502/main_6502.cp
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h:
@@ -98,6 +101,12 @@ CMakeFiles/main.dir/main_6502.cpp.o: /home/jn403l/Documents/my-6502/main_6502.cp
 
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 
+/usr/include/stdlib.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
+
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
 
 /home/jn403l/Documents/my-6502/main_6502.h:
@@ -108,9 +117,7 @@ CMakeFiles/main.dir/main_6502.cpp.o: /home/jn403l/Documents/my-6502/main_6502.cp
 
 /usr/include/c++/13/cstdlib:
 
-/usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h:
-
-/usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
+/usr/include/assert.h:
 
 /usr/include/c++/13/bits/std_abs.h:
 
@@ -129,12 +136,6 @@ CMakeFiles/main.dir/main_6502.cpp.o: /home/jn403l/Documents/my-6502/main_6502.cp
 /usr/include/features-time64.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
-
-/usr/include/stdlib.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
@@ -162,6 +163,14 @@ CMakeFiles/main.dir/main_6502.cpp.o: /home/jn403l/Documents/my-6502/main_6502.cp
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
+/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
+
+/usr/include/stdio.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
+
 /usr/include/c++/13/pstl/pstl_config.h:
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
@@ -172,15 +181,9 @@ CMakeFiles/main.dir/main_6502.cpp.o: /home/jn403l/Documents/my-6502/main_6502.cp
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
-/usr/include/stdio.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
-
-/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 

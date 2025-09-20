@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 //TODO: use value uint_8t etc
 using Byte = unsigned char;
@@ -79,20 +80,21 @@ struct CPU {
 		return Data;
   }  
 
-  Byte ReadByte(Byte address, s32& cycles, Mem &memory) {
+  Byte ReadByte(Word address, s32 &cycles, Mem &memory) {
     Byte Data = memory[address];
     cycles--;
-		return Data;
-	}  
+    return Data;
+  }
 
-	static constexpr Byte INS_LDA_IMMEDIATE = 0xA9;
+  static constexpr Byte INS_LDA_IMMEDIATE = 0xA9;
 	static constexpr Byte INS_LDA_ZEROPAGE	= 0xA5;
 	static constexpr Byte INS_LDA_ZEROPX		= 0xB5;
   static constexpr Byte INS_JSR = 0x20;
   static constexpr Byte INS_LDA_ABS = 0xAD;
   static constexpr Byte INS_LDA_ABSX = 0xBD;
   static constexpr Byte INS_LDA_ABSY = 0xB9;
-  static constexpr Byte INS_LDA_INDIRECTX = 0xA1;    
+  static constexpr Byte INS_LDA_INDIRECTX = 0xA1;
+  static constexpr Byte INS_LDA_INDIRECTY = 0xB1;
 
 	void LDASetStatus() {
 		zeroFlag = (accumulator == 0);
@@ -131,16 +133,28 @@ struct CPU {
 				cycles--;
       } break;
       case INS_LDA_ABS: {
-
+        Word AbsAddress = FetchWord(cycles, memory);
+        accumulator = ReadByte(AbsAddress, cycles, memory);
       } break;
       case INS_LDA_ABSX: {
-
+        Word AbsAddress = FetchWord(cycles, memory);
+        Word AbsAddressX = AbsAddress + indexRegX;
+        accumulator = ReadByte(AbsAddressX, cycles, memory);
+        if ((AbsAddressX - AbsAddress) >= 0xFF) {
+          cycles--;
+        }
       } break;
       case INS_LDA_ABSY: {
-
+        Word AbsAddress = FetchWord(cycles, memory);
+        Word AbsAddressY = AbsAddress + indexRegY;
+        accumulator = ReadByte(AbsAddressY, cycles, memory);
+        if ((AbsAddressY - AbsAddress) >= 0xFF) {
+          cycles--;
+        }
       } break;        
 			default: {
-				printf("Instruction not handled \n");
+        printf("Instruction not handled \n");
+        throw -1;                  
 			}	break;
 			}
     }

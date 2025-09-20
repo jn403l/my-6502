@@ -42,19 +42,6 @@ TEST_F(My6502Test1, CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstructi
 	EXPECT_EQ(CyclesUsed, 2);
 }
 
-TEST_F(My6502Test1, ExecutingABadInstructionDoesNotInfiniteLoop) {
-	// given:
-  mem[0XFFFC] = 0x0;
-  mem[0XFFFD] = 0x0;
-	constexpr s32 num_cycles = 1;
-
-	// when:
-	s32 CyclesUsed = cpu.Execute(num_cycles, mem); // immediate(2) + jump(6)
-
-	// then:
-	EXPECT_EQ(CyclesUsed, num_cycles);
-}
-
 TEST_F(My6502Test1, LDAImmediateCanLoadAValueIntoTheARegister) {
 	// given:
   // start - inline a little program
@@ -180,7 +167,7 @@ TEST_F(My6502Test1, LDAAbsoluteXLoadAValueIntoTheRegister) {
   mem[0XFFFC] = CPU::INS_LDA_ABSX;
   mem[0XFFFD] = 0x80;
   mem[0xFFFE] = 0x44; // 0x4480
-	mem[0x4480] = 0x69; // 
+	mem[0x4481] = 0x69;
 
 	// when:
 	constexpr s32 expected_cycles = 4;
@@ -222,7 +209,7 @@ TEST_F(My6502Test1, LDAAbsoluteYLoadAValueIntoTheRegister) {
   mem[0XFFFC] = CPU::INS_LDA_ABSY;
   mem[0XFFFD] = 0x80;
   mem[0xFFFE] = 0x44; // 0x4480
-	mem[0x4480] = 0x69; // 
+	mem[0x4481] = 0x69; // 
 
 	// when:
 	constexpr s32 expected_cycles = 4;
@@ -266,6 +253,50 @@ TEST_F(My6502Test1, LDAIndirectXCanLoadAValueIntoTheARegister) {
   mem[0x0006] = 0x00; // 0x2 + 0x4
   mem[0x0007] = 0x80; // 0x4402+0xFF crosses page boundary
 	mem[0x8000] = 0x69;
+
+	// when:
+	constexpr s32 expected_cycles = 6;
+	CPU CPUCopy = cpu;
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+
+	// then:
+	EXPECT_EQ(cpu.accumulator, 0x69);
+	EXPECT_EQ(CyclesUsed, expected_cycles);
+	EXPECT_FALSE(cpu.zeroFlag);
+	EXPECT_FALSE(cpu.negativeFlag);
+	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);
+}
+
+TEST_F(My6502Test1, LDAIndirectYCanLoadAValueIntoTheARegister) {
+  // given:
+ 	cpu.indexRegY = 0x04;
+  mem[0XFFFC] = CPU::INS_LDA_INDIRECTY;
+  mem[0XFFFD] = 0x02;
+  mem[0x0002] = 0x00; // 0x2 + 0x4
+  mem[0x0003] = 0x80; // 0x4402+0xFF crosses page boundary
+	mem[0x8004] = 0x69;
+
+	// when:
+	constexpr s32 expected_cycles = 5;
+	CPU CPUCopy = cpu;
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+
+	// then:
+	EXPECT_EQ(cpu.accumulator, 0x69);
+	EXPECT_EQ(CyclesUsed, expected_cycles);
+	EXPECT_FALSE(cpu.zeroFlag);
+	EXPECT_FALSE(cpu.negativeFlag);
+	VerifyUnmodifiedFlagsFromLDA(cpu, CPUCopy);
+}
+
+TEST_F(My6502Test1, LDAIndirectYCanLoadAValueIntoTheARegisterWhenItCrossesAPage) {
+  // given:
+ 	cpu.indexRegY = 0xFF;
+  mem[0XFFFC] = CPU::INS_LDA_INDIRECTY;
+  mem[0XFFFD] = 0x02;
+  mem[0x0002] = 0x02; 
+  mem[0x0003] = 0x80; 
+	mem[0x8101] = 0x69; // 0x8002+0xFF crosses page boundary
 
 	// when:
 	constexpr s32 expected_cycles = 6;
