@@ -2,14 +2,20 @@
 #include <stdlib.h>
 #include <assert.h>
 
-//TODO: use value uint_8t etc
-using Byte = unsigned char;
-using Word = unsigned short;
+namespace my6502 {
+  // TODO: use value uint_8t etc
+  using Byte = unsigned char;
+  using Word = unsigned short;
 
-using u32 = unsigned int;
-using s32 = signed int;
+  using u32 = unsigned int;
+  using s32 = signed int;
 
-struct Mem {
+  struct Mem;
+  struct CPU;
+}
+
+
+struct my6502::Mem {
   static constexpr u32 MAX_MEM = 1024 * 64;
   Byte Data[MAX_MEM];
 
@@ -38,7 +44,7 @@ struct Mem {
 	}
 };
 
-struct CPU {
+struct my6502::CPU {
 
   Word programCounter;
   Word stackPointer;
