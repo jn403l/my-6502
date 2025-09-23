@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../main_6502.h"
+#include <main_6502.h>
 
 class My6502Test1 : public testing::Test {
 public:
