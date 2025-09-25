@@ -3,37 +3,37 @@
 
 class My6502Test1 : public testing::Test {
 public:
-  using Byte = my6502::Byte;
-  using CPU = my6502::CPU;
-  using Mem = my6502::Mem;
-  using s32 = my6502::s32;
-
+  using Byte   = my6502::Byte;
+  using CPU    = my6502::CPU;
+  using Mem    = my6502::Mem;
+  using s32    = my6502::s32;
+  using RegPtr = Byte CPU::*;   // alias for pointer-to-member
+  
   Mem mem{};
   CPU cpu{};
-//  my6502::Mem mem;
-//	my6502::CPU cpu;
+
 	virtual void SetUp() {
 		cpu.Reset(mem); }
   virtual void TearDown() { ; }
 
   void TestLoadRegisterImmediate(Byte Opcode,
-                                 Byte CPU::*Register);
+                                 RegPtr RegisterToTest);
   void TestLoadRegisterZeroPage(Byte OpcodeToTest,
-                                Byte CPU::*RegisterToTest);
+                                RegPtr RegisterToTest);
   void TestLoadRegisterZeroPageX(Byte OpcodeToTest,
-                                 Byte CPU::*RegisterToTest);
+                                 RegPtr RegisterToTest);
   void TestLoadRegisterZeroPageY(Byte OpcodeToTest,
-                                 Byte CPU::*RegisterToTest);
+                                 RegPtr RegisterToTest);
   void TestLoadRegisterAbsolute(Byte OpcodeToTest,
-                                Byte CPU::*RegisterToTest);
+                                RegPtr RegisterToTest);
   void TestLoadRegisterAbsoluteX(Byte OpcodeToTest,
-                                 Byte CPU::*RegisterToTest);
+                                 RegPtr RegisterToTest);
   void TestLoadRegisterAbsoluteY(Byte OpcodeToTest,
-                                 Byte CPU::*RegisterToTest);
+                                 RegPtr RegisterToTest);
   void TestLoadRegisterAbsoluteYWhenCrossingPage(
-      Byte OpcodeToTest, Byte CPU::*RegisterToTest);
+      Byte OpcodeToTest, RegPtr RegisterToTest);
   void TestLoadRegisterAbsoluteXWhenCrossingPage(
-      Byte OpcodeToTest, Byte CPU::*RegisterToTest);
+      Byte OpcodeToTest, RegPtr RegisterToTest);
 };
 
 
@@ -68,7 +68,7 @@ TEST_F(My6502Test1, CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstructi
 	EXPECT_EQ(CyclesUsed, 2);
 }
 
-void My6502Test1::TestLoadRegisterImmediate(Byte OpcodeToTest, Byte CPU::*RegisterToTest) {
+void My6502Test1::TestLoadRegisterImmediate(Byte OpcodeToTest, RegPtr RegisterToTest) {
   mem[0XFFFC] = OpcodeToTest;
 	mem[0XFFFD] = 0x84;
 	// end - inline a little program
@@ -115,7 +115,7 @@ TEST_F(My6502Test1, LDAImmediateCanAffectTheZeroFlag) {
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
-void My6502Test1::TestLoadRegisterZeroPage(Byte OpcodeToTest, Byte CPU::*RegisterToTest) {
+void My6502Test1::TestLoadRegisterZeroPage(Byte OpcodeToTest, RegPtr RegisterToTest) {
 	// given:
   // start - inline a little program
   mem[0XFFFC] = OpcodeToTest;
@@ -147,7 +147,7 @@ TEST_F(My6502Test1, LDYZeroPageCanLoadAValueIntoTheYRegister) {
   TestLoadRegisterZeroPage(CPU::INS_LDY_ZEROPAGE, &CPU::indexRegY);
 }
 
-void My6502Test1::TestLoadRegisterZeroPageX(Byte OpcodeToTest, Byte CPU::*RegisterToTest) {
+void My6502Test1::TestLoadRegisterZeroPageX(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
   cpu.indexRegX = 5;
   // start - inline a little program
@@ -168,7 +168,7 @@ void My6502Test1::TestLoadRegisterZeroPageX(Byte OpcodeToTest, Byte CPU::*Regist
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
-void My6502Test1::TestLoadRegisterZeroPageY(Byte OpcodeToTest, Byte CPU::*RegisterToTest) {
+void My6502Test1::TestLoadRegisterZeroPageY(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
   cpu.indexRegY = 5;
   // start - inline a little program
@@ -222,7 +222,7 @@ TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
 	EXPECT_FALSE(cpu.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);        
 }
-void My6502Test1::TestLoadRegisterAbsolute(Byte OpcodeToTest, Byte CPU::*RegisterToTest) {
+void My6502Test1::TestLoadRegisterAbsolute(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
   mem[0XFFFC] = OpcodeToTest;
   mem[0XFFFD] = 0x80;
@@ -257,7 +257,7 @@ TEST_F(My6502Test1, LDYAbsoluteCanLoadAValueIntoTheYRegister) {
   TestLoadRegisterAbsolute(CPU::INS_LDY_ABS, &CPU::indexRegY);
 }
 
-void My6502Test1::TestLoadRegisterAbsoluteX(Byte OpcodeToTest, Byte CPU::*RegisterToTest) {
+void My6502Test1::TestLoadRegisterAbsoluteX(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
 	cpu.indexRegX = 1;
   mem[0XFFFC] = OpcodeToTest;
@@ -278,7 +278,7 @@ void My6502Test1::TestLoadRegisterAbsoluteX(Byte OpcodeToTest, Byte CPU::*Regist
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
-void My6502Test1::TestLoadRegisterAbsoluteY(Byte OpcodeToTest, Byte CPU::*RegisterToTest) {
+void My6502Test1::TestLoadRegisterAbsoluteY(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
 	cpu.indexRegY = 1;
   mem[0XFFFC] = OpcodeToTest;
@@ -315,7 +315,7 @@ TEST_F(My6502Test1, LDYAbsoluteXLoadAValueIntoTheYRegister) {
   TestLoadRegisterAbsoluteX(CPU::INS_LDY_ABSX, &CPU::indexRegY);
 }
 
-void My6502Test1::TestLoadRegisterAbsoluteXWhenCrossingPage(Byte OpcodeToTest, Byte CPU::*RegisterToTest) {
+void My6502Test1::TestLoadRegisterAbsoluteXWhenCrossingPage(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
 	cpu.indexRegX = 0xFF;
   mem[0XFFFC] = OpcodeToTest;
@@ -351,7 +351,7 @@ TEST_F(My6502Test1, LDAAbsoluteYLoadAValueIntoTheARegister) {
   TestLoadRegisterAbsoluteY(CPU::INS_LDA_ABSY, &CPU::accumulator);
 }
 
-void My6502Test1::TestLoadRegisterAbsoluteYWhenCrossingPage(Byte OpcodeToTest, Byte CPU::*RegisterToTest) {
+void My6502Test1::TestLoadRegisterAbsoluteYWhenCrossingPage(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
 	cpu.indexRegY = 0xFF;
   mem[0XFFFC] = OpcodeToTest;
@@ -443,5 +443,4 @@ TEST_F(My6502Test1, LDAIndirectYCanLoadAValueIntoTheARegisterWhenItCrossesAPage)
 	EXPECT_EQ(CyclesUsed, expected_cycles);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_FALSE(cpu.negativeFlag);
-	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);        
-}
+	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);     }
