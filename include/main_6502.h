@@ -96,17 +96,30 @@ struct my6502::CPU {
     Byte loByte = ReadByte(address, cycles, memory);
     Byte hiByte = ReadByte(address + 1, cycles, memory);
     return loByte | (hiByte << 8);
-  }  
+  }
 
+  // LDA
   static constexpr Byte INS_LDA_IMMEDIATE = 0xA9;
 	static constexpr Byte INS_LDA_ZEROPAGE	= 0xA5;
 	static constexpr Byte INS_LDA_ZEROPX		= 0xB5;
-  static constexpr Byte INS_JSR = 0x20;
-  static constexpr Byte INS_LDA_ABS = 0xAD;
-  static constexpr Byte INS_LDA_ABSX = 0xBD;
-  static constexpr Byte INS_LDA_ABSY = 0xB9;
+  static constexpr Byte INS_JSR           = 0x20;
+  static constexpr Byte INS_LDA_ABS       = 0xAD;
+  static constexpr Byte INS_LDA_ABSX      = 0xBD;
+  static constexpr Byte INS_LDA_ABSY      = 0xB9;
   static constexpr Byte INS_LDA_INDIRECTX = 0xA1;
   static constexpr Byte INS_LDA_INDIRECTY = 0xB1;
+  // LDX
+  static constexpr Byte INS_LDX_IMMEDIATE = 0xA2;
+  static constexpr Byte INS_LDX_ZEROPAGE  = 0xA6;
+  static constexpr Byte INS_LDX_ZEROPY    = 0xB6;
+  static constexpr Byte INS_LDX_ABS       = 0xAE;
+  static constexpr Byte INS_LDX_ABSY      = 0xBE;  
+  // LDY
+  static constexpr Byte INS_LDY_IMMEDIATE = 0xA0;
+  static constexpr Byte INS_LDY_ZEROPAGE  = 0xA4;
+  static constexpr Byte INS_LDY_ZEROPX    = 0xB4;
+  static constexpr Byte INS_LDY_ABS       = 0xAC;
+  static constexpr Byte INS_LDY_ABSX      = 0xBC;
 
 	void LDASetStatus() {
 		zeroFlag = (accumulator == 0);
