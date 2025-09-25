@@ -224,6 +224,7 @@ TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
 }
 void My6502Test1::TestLoadRegisterAbsolute(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
+  // TODO: fix fail
   cpu.zeroFlag = cpu.negativeFlag = true;
   mem[0XFFFC] = OpcodeToTest;
   mem[0XFFFD] = 0x80;
