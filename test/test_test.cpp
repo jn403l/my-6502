@@ -260,6 +260,7 @@ TEST_F(My6502Test1, LDYAbsoluteCanLoadAValueIntoTheYRegister) {
 
 void My6502Test1::TestLoadRegisterAbsoluteX(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
+  cpu.zeroFlag = cpu.negativeFlag = true;
 	cpu.indexRegX = 1;
   mem[0XFFFC] = OpcodeToTest;
   mem[0XFFFD] = 0x80;
@@ -281,6 +282,7 @@ void My6502Test1::TestLoadRegisterAbsoluteX(Byte OpcodeToTest, RegPtr RegisterTo
 
 void My6502Test1::TestLoadRegisterAbsoluteY(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
+  cpu.zeroFlag = cpu.negativeFlag = true;
 	cpu.indexRegY = 1;
   mem[0XFFFC] = OpcodeToTest;
   mem[0XFFFD] = 0x80;
@@ -383,6 +385,7 @@ TEST_F(My6502Test1, LDXAbsoluteYLoadAValueIntoTheXRegisterWhenItCrossesAPageBoun
 
 TEST_F(My6502Test1, LDAIndirectXCanLoadAValueIntoTheARegister) {
   // given:
+  cpu.zeroFlag = cpu.negativeFlag = true;  
 	cpu.indexRegX = 0x04;
   mem[0XFFFC] = CPU::INS_LDA_INDIRECTX;
   mem[0XFFFD] = 0x02;
@@ -405,6 +408,7 @@ TEST_F(My6502Test1, LDAIndirectXCanLoadAValueIntoTheARegister) {
 
 TEST_F(My6502Test1, LDAIndirectYCanLoadAValueIntoTheARegister) {
   // given:
+  cpu.zeroFlag = cpu.negativeFlag = true;  
  	cpu.indexRegY = 0x04;
   mem[0XFFFC] = CPU::INS_LDA_INDIRECTY;
   mem[0XFFFD] = 0x02;

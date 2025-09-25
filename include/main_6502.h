@@ -120,7 +120,7 @@ struct my6502::CPU {
   static constexpr Byte INS_LDY_ZEROPX    = 0xB4;
   static constexpr Byte INS_LDY_ABS       = 0xAC;
   static constexpr Byte INS_LDY_ABSX      = 0xBC;
-
+  /* Sets the correct process status after a load register instruction*/
 	void LoadRegisterSetStatus(Byte Register) {
 		zeroFlag = (Register == 0);
 		negativeFlag = (Register & 0b10000000) > 0;
@@ -167,11 +167,13 @@ struct my6502::CPU {
       case INS_LDA_ABS: {
         Word AbsAddress = FetchWord(cycles, memory);
         accumulator = ReadByte(AbsAddress, cycles, memory);
+				LoadRegisterSetStatus(accumulator);        
       } break;
       case INS_LDA_ABSX: {
         Word AbsAddress = FetchWord(cycles, memory);
         Word AbsAddressX = AbsAddress + indexRegX;
         accumulator = ReadByte(AbsAddressX, cycles, memory);
+				LoadRegisterSetStatus(accumulator);        
         if ((AbsAddressX - AbsAddress) >= 0xFF) {
           cycles--;
         }
@@ -196,6 +198,7 @@ struct my6502::CPU {
         Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
         Word effectiveAddrY = effectiveAddr + indexRegY;
         accumulator = ReadByte(effectiveAddrY, cycles, memory);
+				LoadRegisterSetStatus(accumulator);        
         if ((effectiveAddrY - effectiveAddr) >= 0xFF) {
           cycles--;
         }
