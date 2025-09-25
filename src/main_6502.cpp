@@ -1,4 +1,4 @@
-#include <main_6502.h>
+#include <emu6502.h>
 
 int main() {
   my6502::Mem mem;
