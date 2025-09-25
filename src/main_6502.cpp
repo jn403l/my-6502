@@ -14,3 +14,4 @@ int main() {
   cpu.Execute(8, mem); //immediate(2) + jump(6)
 	return 0;
 }
+

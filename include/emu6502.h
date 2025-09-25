@@ -182,6 +182,7 @@ struct my6502::CPU {
         Word AbsAddress = FetchWord(cycles, memory);
         Word AbsAddressY = AbsAddress + indexRegY;
         accumulator = ReadByte(AbsAddressY, cycles, memory);
+				LoadRegisterSetStatus(accumulator);
         if ((AbsAddressY - AbsAddress) >= 0xFF) {
           cycles--;
         }
@@ -192,6 +193,7 @@ struct my6502::CPU {
         cycles--;
         Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
         accumulator = ReadByte(effectiveAddr, cycles, memory);
+				LoadRegisterSetStatus(accumulator);        
       } break;
       case INS_LDA_INDIRECTY: {
         Byte zPAddress = FetchByte(cycles, memory);
