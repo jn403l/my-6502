@@ -35,7 +35,7 @@ static void VerifyUnmodifiedFlagsFromLoadRegister(const my6502::CPU &cpu, const 
 	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
 	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
 	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
-	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);          
+	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);
 }
 
 TEST_F(My6502Test1, CPUDoesNothingWhenWeExecuteZeroCycles) {
@@ -57,7 +57,7 @@ TEST_F(My6502Test1, CPUCanExecuteMoreCyclesThanRequestedIfRequiredByTheInstructi
 	mem[0XFFFD] = 0x84;
 
 	// when:
-	s32 CyclesUsed = cpu.Execute(1, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(1, mem); // immediate(2)
 
 	// then:
 	EXPECT_EQ(CyclesUsed, 2);
@@ -71,7 +71,7 @@ void My6502Test1::TestLoadRegisterImmediate(my6502::Byte OpcodeToTest, my6502::B
 
 	// when:
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(2, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(2, mem);
 
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x84);
@@ -105,7 +105,7 @@ TEST_F(My6502Test1, LDAImmediateCanAffectTheZeroFlag) {
 
 	// when:
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(2, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(2, mem);
 
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x0);
@@ -126,7 +126,7 @@ void My6502Test1::TestLoadRegisterZeroPage(my6502::Byte OpcodeToTest, my6502::By
 
 	// when:
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(3, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(3, mem); 
 
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
@@ -163,7 +163,7 @@ void My6502Test1::TestLoadRegisterZeroPageX(my6502::Byte OpcodeToTest, my6502::B
 
 	// when:
 	CPU CPUCopy = cpu;  
-	s32 CyclesUsed = cpu.Execute(4, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(4, mem);
 
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
@@ -185,7 +185,7 @@ void My6502Test1::TestLoadRegisterZeroPageY(my6502::Byte OpcodeToTest, my6502::B
 
 	// when:
 	CPU CPUCopy = cpu;  
-	s32 CyclesUsed = cpu.Execute(4, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(4, mem);
 
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
@@ -223,7 +223,7 @@ TEST_F(My6502Test1, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItWraps) {
 
 	// when:
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(4, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(4, mem);
 
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x69);
@@ -243,7 +243,7 @@ void My6502Test1::TestLoadRegisterAbsolute(my6502::Byte OpcodeToTest, my6502::By
 	// when:
 	constexpr s32 expected_cycles = 4;
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem);
 
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
@@ -283,7 +283,7 @@ void My6502Test1::TestLoadRegisterAbsoluteX(my6502::Byte OpcodeToTest, my6502::B
 	// when:
 	constexpr s32 expected_cycles = 4;
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem);
 
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
@@ -305,7 +305,7 @@ void My6502Test1::TestLoadRegisterAbsoluteY(my6502::Byte OpcodeToTest, my6502::B
 	// when:
 	constexpr s32 expected_cycles = 4;
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem);
 
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
@@ -346,7 +346,7 @@ void My6502Test1::TestLoadRegisterAbsoluteXWhenCrossingPage(my6502::Byte OpcodeT
 	// when:
 	constexpr s32 expected_cycles = 5;
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem);
 
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
@@ -386,7 +386,7 @@ void My6502Test1::TestLoadRegisterAbsoluteYWhenCrossingPage(my6502::Byte OpcodeT
 	// when:
 	constexpr s32 expected_cycles = 5;
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem);
 
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
@@ -419,7 +419,7 @@ TEST_F(My6502Test1, LDAIndirectXCanLoadAValueIntoTheARegister) {
 	// when:
 	constexpr s32 expected_cycles = 6;
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem);
 
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x30);
@@ -442,7 +442,7 @@ TEST_F(My6502Test1, LDAIndirectYCanLoadAValueIntoTheARegister) {
 	// when:
 	constexpr s32 expected_cycles = 5;
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem);
 
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x69);
@@ -465,7 +465,7 @@ TEST_F(My6502Test1, LDAIndirectYCanLoadAValueIntoTheARegisterWhenItCrossesAPage)
 	// when:
 	constexpr s32 expected_cycles = 6;
 	CPU CPUCopy = cpu;
-	s32 CyclesUsed = cpu.Execute(expected_cycles, mem); // immediate(2) + jump(6)
+	s32 CyclesUsed = cpu.Execute(expected_cycles, mem);
 
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x69);
