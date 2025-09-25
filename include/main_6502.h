@@ -121,9 +121,9 @@ struct my6502::CPU {
   static constexpr Byte INS_LDY_ABS       = 0xAC;
   static constexpr Byte INS_LDY_ABSX      = 0xBC;
 
-	void LDASetStatus() {
-		zeroFlag = (accumulator == 0);
-		negativeFlag = (accumulator & 0b10000000) > 0;
+	void LoadRegisterSetStatus(Byte Register) {
+		zeroFlag = (Register == 0);
+		negativeFlag = (Register & 0b10000000) > 0;
 	}
 
     s32 Execute(s32 cycles, Mem &memory) {
@@ -132,15 +132,22 @@ struct my6502::CPU {
       Byte Ins = FetchByte(cycles, memory);
 			switch (Ins) {
 			case INS_LDA_IMMEDIATE: {
-				Byte value = FetchByte(cycles, memory);
-				accumulator = value;
-				LDASetStatus();
-			} break;
+				accumulator = FetchByte(cycles, memory);
+				LoadRegisterSetStatus(accumulator);
+      } break;
+			case INS_LDX_IMMEDIATE: {
+				indexRegX = FetchByte(cycles, memory);
+				LoadRegisterSetStatus(indexRegX);
+                        } break;
+			case INS_LDY_IMMEDIATE: {
+				indexRegY = FetchByte(cycles, memory);
+				LoadRegisterSetStatus(indexRegY);
+			} break;                          
 			case INS_LDA_ZEROPAGE: {
 				Byte zeroPageAddress = FetchByte(cycles, memory);
 				accumulator =
 					ReadByte(zeroPageAddress, cycles, memory);
-				LDASetStatus();
+				LoadRegisterSetStatus(accumulator);
 			} break;
       case INS_LDA_ZEROPX: {
         Byte zeroPageAddress = FetchByte(cycles, memory);
@@ -148,7 +155,7 @@ struct my6502::CPU {
         cycles--;
 				accumulator =
 					ReadByte(zeroPageAddress, cycles, memory);
-				LDASetStatus();
+				LoadRegisterSetStatus(accumulator);
       } break;
       case INS_JSR: {
         Word SubAddr = FetchWord(cycles, memory);
