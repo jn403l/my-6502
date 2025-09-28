@@ -2,4 +2,4 @@
 *.cpp~
 *.h~
 build/
-./cache/clangd
+.cache/clangd/index

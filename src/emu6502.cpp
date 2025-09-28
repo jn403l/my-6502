@@ -1,6 +1,19 @@
 #include <emu6502.h>
 
 namespace my6502 {
+
+	Word CPU::AddrZeroPage(s32& cycles, Mem& memory) {
+		Byte zeroPageAddr = FetchByte(cycles, memory);
+		return zeroPageAddr;
+	}
+
+	Word CPU::AddrZeroPageX(s32& cycles, Mem& memory) {
+		Byte zeroPageAddr = FetchByte(cycles, memory);
+		zeroPageAddr += indexRegX;
+		cycles--;          
+		return zeroPageAddr;
+	}
+
   s32 CPU::Execute(s32 cycles, Mem &memory) {
     const s32 cyclesRequested = cycles;
     while (cycles > 0) {
@@ -19,17 +32,30 @@ namespace my6502 {
         LoadRegisterSetStatus(indexRegY);
       } break;
       case INS_LDA_ZEROPAGE: {
-        Byte zeroPageAddress = FetchByte(cycles, memory);
-        accumulator = ReadByte(zeroPageAddress, cycles, memory);
+				Word address = AddrZeroPage(cycles, memory);
+        accumulator = ReadByte(address, cycles, memory);
         LoadRegisterSetStatus(accumulator);
+      } break;
+      case INS_LDX_ZEROPAGE: {
+				Word address = AddrZeroPage(cycles, memory);
+        indexRegX = ReadByte(address, cycles, memory);
+        LoadRegisterSetStatus(indexRegX);
+      } break;
+      case INS_LDY_ZEROPAGE: {
+				Word address = AddrZeroPage(cycles, memory);
+        indexRegY = ReadByte(address, cycles, memory);
+        LoadRegisterSetStatus(indexRegY);
       } break;
       case INS_LDA_ZEROPX: {
-        Byte zeroPageAddress = FetchByte(cycles, memory);
-        zeroPageAddress += indexRegX;
-        cycles--;
-        accumulator = ReadByte(zeroPageAddress, cycles, memory);
+        Word address = AddrZeroPageX(cycles, memory);            
+        accumulator = ReadByte(address, cycles, memory);
         LoadRegisterSetStatus(accumulator);
       } break;
+      case INS_LDY_ZEROPX: {
+        Word address = AddrZeroPageX(cycles, memory);            
+        indexRegY = ReadByte(address, cycles, memory);
+        LoadRegisterSetStatus(indexRegY);
+      } break;        
       case INS_JSR: {
         Word SubAddr = FetchWord(cycles, memory);
         // TODO: increment stack pointer
