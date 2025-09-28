@@ -16,7 +16,8 @@ public:
 		cpu.Reset(mem); }
   virtual void TearDown() { ; }
 
-  void TestStoreRegisterZeroPage(Byte OpcodeToTest, RegPtr RegisterToTest);        
+  void TestStoreRegisterZeroPage(Byte OpcodeToTest, RegPtr RegisterToTest);
+  void TestStoreRegisterAbsolute(Byte OpcodeToTest, RegPtr RegisterToTest);  
 };
 
 static void VerifyUnmodifiedFlagsFromStoreRegister(const my6502::CPU &cpu, const my6502::CPU &CPUCopy) {
@@ -48,14 +49,45 @@ void My6502StoreRegisterTests::TestStoreRegisterZeroPage(Byte OpcodeToTest, RegP
   VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
 }
 
+void My6502StoreRegisterTests::TestStoreRegisterAbsolute(Byte OpcodeToTest, RegPtr RegisterToTest) {
+  // given
+  CPU CPUCopy = cpu;
+  cpu.*RegisterToTest = 0x34;
+  mem[0xFFFC] = OpcodeToTest;
+  mem[0xFFFD] = 0x00;
+  mem[0xFFFD] = 0x80;  
+  mem[0x8000] = 0x00;
+  constexpr s32 expected_cyles = 4;
+
+  // when:
+  const s32 CyclesUsed = cpu.Execute(expected_cyles, mem);
+
+  // then:
+  EXPECT_EQ(CyclesUsed, expected_cyles);
+  EXPECT_EQ(mem[0x8000], 0x34);
+  VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
+}
+
 TEST_F(My6502StoreRegisterTests, STAZeroPageCanStoreTheARegisterIntoMemory) {
   TestStoreRegisterZeroPage(CPU::INS_STA_ZEROPAGE, &CPU::accumulator);
 }
 
-TEST_F(My6502StoreRegisterTests, STXZeroPageCanStoreTheARegisterIntoMemory) {
+TEST_F(My6502StoreRegisterTests, STXZeroPageCanStoreTheXRegisterIntoMemory) {
   TestStoreRegisterZeroPage(CPU::INS_STX_ZEROPAGE, &CPU::indexRegX);
 }
 
-TEST_F(My6502StoreRegisterTests, STYZeroPageCanStoreTheARegisterIntoMemory) {
+TEST_F(My6502StoreRegisterTests, STYZeroPageCanStoreTheYRegisterIntoMemory) {
   TestStoreRegisterZeroPage(CPU::INS_STY_ZEROPAGE, &CPU::indexRegY);
+}
+
+TEST_F(My6502StoreRegisterTests, STAAbsoluteCanStoreTheARegisterIntoMemory) {
+  TestStoreRegisterAbsolute(CPU::INS_STA_ABSOLUTE, &CPU::accumulator);
+}
+
+TEST_F(My6502StoreRegisterTests, STXAbsoluteCanStoreTheXRegisterIntoMemory) {
+  TestStoreRegisterAbsolute(CPU::INS_STX_ABSOLUTE, &CPU::indexRegX);
+}
+
+TEST_F(My6502StoreRegisterTests, STYAbsoluteCanStoreTheYRegisterIntoMemory) {
+  TestStoreRegisterAbsolute(CPU::INS_STY_ABSOLUTE, &CPU::indexRegY);
 }
