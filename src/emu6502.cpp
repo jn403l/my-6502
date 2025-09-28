@@ -2,48 +2,6 @@
 
 namespace my6502 {
 
-	Word CPU::AddrZeroPage(s32& cycles, Mem& memory) {
-		Byte zeroPageAddr = FetchByte(cycles, memory);
-		return zeroPageAddr;
-	}
-
-	Word CPU::AddrZeroPageX(s32& cycles, Mem& memory) {
-		Byte zeroPageAddr = FetchByte(cycles, memory);
-		zeroPageAddr += indexRegX;
-		cycles--;          
-		return zeroPageAddr;
-	}
-
-	Word CPU::AddrZeroPageY(s32& cycles, Mem& memory) {
-		Byte zeroPageAddr = FetchByte(cycles, memory);
-		zeroPageAddr += indexRegY;
-		cycles--;          
-		return zeroPageAddr;
-	}        
-
-	Word CPU::AddrAbsolute(s32& cycles, Mem& memory) {
- 		Word absAddr = FetchWord(cycles, memory);              
-		return absAddr;
-	}
-	
-	Word CPU::AddrAbsoluteX(s32& cycles, Mem& memory) {
-		Word absAddr = FetchWord(cycles, memory);
-		Word absAddrX = absAddr + indexRegX;
-		if ((absAddrX - absAddr) >= 0xFF) {
-			cycles--;
-		}
-		return absAddrX;
-	}
-
-	Word CPU::AddrAbsoluteY(s32 &cycles, Mem &memory) {
-		Word absAddr = FetchWord(cycles, memory);
-		Word absAddrY = absAddr + indexRegY;
-		if ((absAddrY - absAddr) >= 0xFF) {
-			cycles--;
-		}
-		return absAddrY;
-	}        
-
   s32 CPU::Execute(s32 cycles, Mem &memory) {
     const s32 cyclesRequested = cycles;
     while (cycles > 0) {
@@ -159,4 +117,47 @@ namespace my6502 {
     }
     return cyclesRequested - cycles;
   }
+
+
+	Word CPU::AddrZeroPage(s32& cycles, const Mem& memory) {
+		Byte zeroPageAddr = FetchByte(cycles, memory);
+		return zeroPageAddr;
+	}
+
+	Word CPU::AddrZeroPageX(s32& cycles, const Mem& memory) {
+		Byte zeroPageAddr = FetchByte(cycles, memory);
+		zeroPageAddr += indexRegX;
+		cycles--;          
+		return zeroPageAddr;
+	}
+
+	Word CPU::AddrZeroPageY(s32& cycles, const Mem& memory) {
+		Byte zeroPageAddr = FetchByte(cycles, memory);
+		zeroPageAddr += indexRegY;
+		cycles--;          
+		return zeroPageAddr;
+	}        
+
+	Word CPU::AddrAbsolute(s32& cycles, const Mem& memory) {
+ 		Word absAddr = FetchWord(cycles, memory);              
+		return absAddr;
+	}
+	
+	Word CPU::AddrAbsoluteX(s32& cycles, const Mem& memory) {
+		Word absAddr = FetchWord(cycles, memory);
+		Word absAddrX = absAddr + indexRegX;
+		if ((absAddrX - absAddr) >= 0xFF) {
+			cycles--;
+		}
+		return absAddrX;
+	}
+
+	Word CPU::AddrAbsoluteY(s32 &cycles, const Mem &memory) {
+		Word absAddr = FetchWord(cycles, memory);
+		Word absAddrY = absAddr + indexRegY;
+		if ((absAddrY - absAddr) >= 0xFF) {
+			cycles--;
+		}
+		return absAddrY;
+	}          
 }

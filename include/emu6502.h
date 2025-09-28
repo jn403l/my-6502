@@ -69,14 +69,14 @@ struct my6502::CPU {
 		memory.Initialize();
   }
 
-  Byte FetchByte(s32& cycles, Mem &memory) {
+  Byte FetchByte(s32& cycles, const Mem &memory) {
     Byte Data = memory[programCounter];
     programCounter++;
     cycles--;
 		return Data;
   }
 
-  Word FetchWord(s32 &cycles, Mem &memory) {
+  Word FetchWord(s32 &cycles, const Mem &memory) {
 		// 6502 is little endian
     Word Data = memory[programCounter];
     programCounter++;
@@ -130,15 +130,15 @@ struct my6502::CPU {
   /** return the number of cycles used **/
   s32 Execute(s32 cycles, Mem &memory);
   /** Addressing mode - zero page **/
-  Word AddrZeroPage(s32 &cycles, Mem &memory);
+  Word AddrZeroPage(s32 &cycles, const Mem &memory);
   /** Addressing mode - zero page with x offset **/
-  Word AddrZeroPageX(s32 &cycles, Mem &memory);
+  Word AddrZeroPageX(s32 &cycles, const Mem &memory);
   /** Addressing mode - zero page with y offset **/
-	Word AddrZeroPageY(s32& cycles, Mem& memory);  
+	Word AddrZeroPageY(s32& cycles, const Mem& memory);  
   /** Addressing mode - absolute **/
-  Word AddrAbsolute(s32 &cycles, Mem &memory);
+  Word AddrAbsolute(s32 &cycles, const Mem &memory);
   /** Addressing mode - absolute with x offset **/
-  Word AddrAbsoluteX(s32 &cycles, Mem &memory);
+  Word AddrAbsoluteX(s32 &cycles, const Mem &memory);
   /** Addressing mode - absolute with y offset **/
-  Word AddrAbsoluteY(s32 &cycles, Mem &memory);
+  Word AddrAbsoluteY(s32 &cycles, const Mem &memory);
 };
