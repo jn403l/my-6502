@@ -448,4 +448,6 @@ TEST_F(My6502Test1, LDAIndirectYCanLoadAValueIntoTheARegisterWhenItCrossesAPage)
 	EXPECT_EQ(CyclesUsed, expected_cycles);
 	EXPECT_FALSE(cpu.zeroFlag);
 	EXPECT_FALSE(cpu.negativeFlag);
-	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);     }
+  VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
+}
+

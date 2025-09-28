@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -125,92 +126,90 @@ struct my6502::CPU {
 		zeroFlag = (Register == 0);
 		negativeFlag = (Register & 0b10000000) > 0;
 	}
-
-    s32 Execute(s32 cycles, Mem &memory) {
-    const s32 cyclesRequested = cycles;           
-    while (cycles > 0) {
-      Byte Ins = FetchByte(cycles, memory);
-			switch (Ins) {
-			case INS_LDA_IMMEDIATE: {
-				accumulator = FetchByte(cycles, memory);
-				LoadRegisterSetStatus(accumulator);
-      } break;
-			case INS_LDX_IMMEDIATE: {
-				indexRegX = FetchByte(cycles, memory);
-				LoadRegisterSetStatus(indexRegX);
-                        } break;
-			case INS_LDY_IMMEDIATE: {
-				indexRegY = FetchByte(cycles, memory);
-				LoadRegisterSetStatus(indexRegY);
-			} break;                          
-			case INS_LDA_ZEROPAGE: {
-				Byte zeroPageAddress = FetchByte(cycles, memory);
-				accumulator =
-					ReadByte(zeroPageAddress, cycles, memory);
-				LoadRegisterSetStatus(accumulator);
-			} break;
-      case INS_LDA_ZEROPX: {
-        Byte zeroPageAddress = FetchByte(cycles, memory);
-        zeroPageAddress += indexRegX;
-        cycles--;
-				accumulator =
-					ReadByte(zeroPageAddress, cycles, memory);
-				LoadRegisterSetStatus(accumulator);
-      } break;
-      case INS_JSR: {
-        Word SubAddr = FetchWord(cycles, memory);
-        //TODO: increment stack pointer
-				memory.WriteWord(programCounter -1 , stackPointer, cycles);
-				programCounter = SubAddr;
-				cycles--;
-      } break;
-      case INS_LDA_ABS: {
-        Word AbsAddress = FetchWord(cycles, memory);
-        accumulator = ReadByte(AbsAddress, cycles, memory);
-				LoadRegisterSetStatus(accumulator);        
-      } break;
-      case INS_LDA_ABSX: {
-        Word AbsAddress = FetchWord(cycles, memory);
-        Word AbsAddressX = AbsAddress + indexRegX;
-        accumulator = ReadByte(AbsAddressX, cycles, memory);
-				LoadRegisterSetStatus(accumulator);        
-        if ((AbsAddressX - AbsAddress) >= 0xFF) {
-          cycles--;
-        }
-      } break;
-      case INS_LDA_ABSY: {
-        Word AbsAddress = FetchWord(cycles, memory);
-        Word AbsAddressY = AbsAddress + indexRegY;
-        accumulator = ReadByte(AbsAddressY, cycles, memory);
-				LoadRegisterSetStatus(accumulator);
-        if ((AbsAddressY - AbsAddress) >= 0xFF) {
-          cycles--;
-        }
-      } break;
-      case INS_LDA_INDIRECTX: {
-        Byte zPAddress = FetchByte(cycles, memory);
-        zPAddress += indexRegX;
-        cycles--;
-        Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
-        accumulator = ReadByte(effectiveAddr, cycles, memory);
-				LoadRegisterSetStatus(accumulator);        
-      } break;
-      case INS_LDA_INDIRECTY: {
-        Byte zPAddress = FetchByte(cycles, memory);
-        Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
-        Word effectiveAddrY = effectiveAddr + indexRegY;
-        accumulator = ReadByte(effectiveAddrY, cycles, memory);
-				LoadRegisterSetStatus(accumulator);        
-        if ((effectiveAddrY - effectiveAddr) >= 0xFF) {
-          cycles--;
-        }
-      } break;       
-			default: {
-        printf("Instruction %d not handled \n", Ins);
-        throw -1;                  
-			}	break;
-			}
-    }
-    return cyclesRequested - cycles;      
-  }
+  s32 Execute(s32 cycles, Mem& memory);
+//  s32 Execute(s32 cycles, Mem& memory) {
+//    const s32 cyclesRequested = cycles;
+//    while (cycles > 0) {
+//      Byte Ins = FetchByte(cycles, memory);
+//      switch (Ins) {
+//      case INS_LDA_IMMEDIATE: {
+//        accumulator = FetchByte(cycles, memory);
+//        LoadRegisterSetStatus(accumulator);
+//      } break;
+//      case INS_LDX_IMMEDIATE: {
+//        indexRegX = FetchByte(cycles, memory);
+//        LoadRegisterSetStatus(indexRegX);
+//      } break;
+//      case INS_LDY_IMMEDIATE: {
+//        indexRegY = FetchByte(cycles, memory);
+//        LoadRegisterSetStatus(indexRegY);
+//      } break;
+//      case INS_LDA_ZEROPAGE: {
+//        Byte zeroPageAddress = FetchByte(cycles, memory);
+//        accumulator = ReadByte(zeroPageAddress, cycles, memory);
+//        LoadRegisterSetStatus(accumulator);
+//      } break;
+//      case INS_LDA_ZEROPX: {
+//        Byte zeroPageAddress = FetchByte(cycles, memory);
+//        zeroPageAddress += indexRegX;
+//        cycles--;
+//        accumulator = ReadByte(zeroPageAddress, cycles, memory);
+//        LoadRegisterSetStatus(accumulator);
+//      } break;
+//      case INS_JSR: {
+//        Word SubAddr = FetchWord(cycles, memory);
+//        // TODO: increment stack pointer
+//        memory.WriteWord(programCounter - 1, stackPointer, cycles);
+//        programCounter = SubAddr;
+//        cycles--;
+//      } break;
+//      case INS_LDA_ABS: {
+//        Word AbsAddress = FetchWord(cycles, memory);
+//        accumulator = ReadByte(AbsAddress, cycles, memory);
+//        LoadRegisterSetStatus(accumulator);
+//      } break;
+//      case INS_LDA_ABSX: {
+//        Word AbsAddress = FetchWord(cycles, memory);
+//        Word AbsAddressX = AbsAddress + indexRegX;
+//        accumulator = ReadByte(AbsAddressX, cycles, memory);
+//        LoadRegisterSetStatus(accumulator);
+//        if ((AbsAddressX - AbsAddress) >= 0xFF) {
+//          cycles--;
+//        }
+//      } break;
+//      case INS_LDA_ABSY: {
+//        Word AbsAddress = FetchWord(cycles, memory);
+//        Word AbsAddressY = AbsAddress + indexRegY;
+//        accumulator = ReadByte(AbsAddressY, cycles, memory);
+//        LoadRegisterSetStatus(accumulator);
+//        if ((AbsAddressY - AbsAddress) >= 0xFF) {
+//          cycles--;
+//        }
+//      } break;
+//      case INS_LDA_INDIRECTX: {
+//        Byte zPAddress = FetchByte(cycles, memory);
+//        zPAddress += indexRegX;
+//        cycles--;
+//        Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
+//        accumulator = ReadByte(effectiveAddr, cycles, memory);
+//        LoadRegisterSetStatus(accumulator);
+//      } break;
+//      case INS_LDA_INDIRECTY: {
+//        Byte zPAddress = FetchByte(cycles, memory);
+//        Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
+//        Word effectiveAddrY = effectiveAddr + indexRegY;
+//        accumulator = ReadByte(effectiveAddrY, cycles, memory);
+//        LoadRegisterSetStatus(accumulator);
+//        if ((effectiveAddrY - effectiveAddr) >= 0xFF) {
+//          cycles--;
+//        }
+//      } break;
+//      default: {
+//        printf("Instruction %d not handled \n", Ins);
+//        throw -1;
+//      } break;
+//      }
+//    }
+//    return cyclesRequested - cycles;
+//  }
 };
