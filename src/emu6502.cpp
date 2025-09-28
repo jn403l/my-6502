@@ -14,6 +14,20 @@ namespace my6502 {
 		return zeroPageAddr;
 	}
 
+	Word CPU::AddrAbsolute(s32& cycles, Mem& memory) {
+ 		Word absAddr = FetchWord(cycles, memory);              
+		return absAddr;
+	}
+	
+	Word CPU::AddrAbsoluteX(s32& cycles, Mem& memory) {
+		Word absAddr = FetchWord(cycles, memory);
+		Word absAddrX = absAddr + indexRegX;
+		if ((absAddrX - absAddr) >= 0xFF) {
+			cycles--;
+		}
+		return absAddrX;
+	}         
+
   s32 CPU::Execute(s32 cycles, Mem &memory) {
     const s32 cyclesRequested = cycles;
     while (cycles > 0) {
@@ -64,19 +78,30 @@ namespace my6502 {
         cycles--;
       } break;
       case INS_LDA_ABS: {
-        Word AbsAddress = FetchWord(cycles, memory);
-        accumulator = ReadByte(AbsAddress, cycles, memory);
+				Word address = AddrAbsolute(cycles, memory);
+        accumulator = ReadByte(address, cycles, memory);
         LoadRegisterSetStatus(accumulator);
+      } break;
+      case INS_LDX_ABS: {
+				Word address = AddrAbsolute(cycles, memory);
+        indexRegX = ReadByte(address, cycles, memory);
+        LoadRegisterSetStatus(indexRegX);
+      } break;
+      case INS_LDY_ABS: {
+				Word address = AddrAbsolute(cycles, memory);
+        indexRegY = ReadByte(address, cycles, memory);
+        LoadRegisterSetStatus(indexRegY);
       } break;
       case INS_LDA_ABSX: {
-        Word AbsAddress = FetchWord(cycles, memory);
-        Word AbsAddressX = AbsAddress + indexRegX;
-        accumulator = ReadByte(AbsAddressX, cycles, memory);
+				Word address = AddrAbsoluteX(cycles, memory);
+        accumulator = ReadByte(address, cycles, memory);
         LoadRegisterSetStatus(accumulator);
-        if ((AbsAddressX - AbsAddress) >= 0xFF) {
-          cycles--;
-        }
       } break;
+      case INS_LDY_ABSX: {
+				Word address = AddrAbsoluteX(cycles, memory);
+        indexRegY = ReadByte(address, cycles, memory);
+        LoadRegisterSetStatus(indexRegY);        
+      } break;        
       case INS_LDA_ABSY: {
         Word AbsAddress = FetchWord(cycles, memory);
         Word AbsAddressY = AbsAddress + indexRegY;
