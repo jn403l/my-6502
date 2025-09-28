@@ -121,6 +121,9 @@ struct my6502::CPU {
   static constexpr Byte INS_LDY_ZEROPX    = 0xB4;
   static constexpr Byte INS_LDY_ABS       = 0xAC;
   static constexpr Byte INS_LDY_ABSX      = 0xBC;
+  // STA
+  static constexpr Byte INS_STA_ZEROPAGE = 0x85;
+
   /** Sets the correct process status after a load register instruction **/
 	void LoadRegisterSetStatus(Byte Register) {
 		zeroFlag = (Register == 0);
