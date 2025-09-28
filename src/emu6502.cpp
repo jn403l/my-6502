@@ -2,7 +2,14 @@
 
 namespace my6502 {
 
-  s32 CPU::Execute(s32 cycles, Mem &memory) {
+	s32 CPU::Execute(s32 cycles, Mem &memory) {
+
+		/** Load a register from the memory address **/
+		auto LoadRegister = [&cycles, &memory, this](Word address, Byte &register_param) {
+			register_param = ReadByte(address, cycles, memory);
+			LoadRegisterSetStatus(register_param);
+		};
+  
     const s32 cyclesRequested = cycles;
     while (cycles > 0) {
       Byte Ins = FetchByte(cycles, memory);
@@ -21,33 +28,27 @@ namespace my6502 {
       } break;
       case INS_LDA_ZEROPAGE: {
 				Word address = AddrZeroPage(cycles, memory);
-        accumulator = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(accumulator);
+				LoadRegister(address, accumulator);
       } break;
       case INS_LDX_ZEROPAGE: {
-				Word address = AddrZeroPage(cycles, memory);
-        indexRegX = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(indexRegX);
+        Word address = AddrZeroPage(cycles, memory);
+				LoadRegister(address, indexRegX);
       } break;
       case INS_LDY_ZEROPAGE: {
 				Word address = AddrZeroPage(cycles, memory);
-        indexRegY = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(indexRegY);
+				LoadRegister(address, indexRegY);
       } break;
       case INS_LDA_ZEROPX: {
         Word address = AddrZeroPageX(cycles, memory);            
-        accumulator = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(accumulator);
+				LoadRegister(address, accumulator);
       } break;
       case INS_LDY_ZEROPX: {
         Word address = AddrZeroPageX(cycles, memory);            
-        indexRegY = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(indexRegY);
+				LoadRegister(address, indexRegY);
       } break;
 			case INS_LDX_ZEROPY: {
         Word address = AddrZeroPageY(cycles, memory);            
-        indexRegX = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(indexRegX);
+				LoadRegister(address, indexRegX);
       } break;        
       case INS_JSR: {
         Word SubAddr = FetchWord(cycles, memory);
@@ -57,54 +58,45 @@ namespace my6502 {
         cycles--;
       } break;
       case INS_LDA_ABS: {
-				Word address = AddrAbsolute(cycles, memory);
-        accumulator = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(accumulator);
+        Word address = AddrAbsolute(cycles, memory);
+				LoadRegister(address, accumulator);
       } break;
       case INS_LDX_ABS: {
 				Word address = AddrAbsolute(cycles, memory);
-        indexRegX = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(indexRegX);
+				LoadRegister(address, indexRegX);
       } break;
       case INS_LDY_ABS: {
 				Word address = AddrAbsolute(cycles, memory);
-        indexRegY = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(indexRegY);
+				LoadRegister(address, indexRegY);
       } break;
       case INS_LDA_ABSX: {
 				Word address = AddrAbsoluteX(cycles, memory);
-        accumulator = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(accumulator);
+				LoadRegister(address, accumulator);
       } break;
       case INS_LDY_ABSX: {
 				Word address = AddrAbsoluteX(cycles, memory);
-        indexRegY = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(indexRegY);        
+				LoadRegister(address, indexRegY);
       } break;        
       case INS_LDA_ABSY: {
 				Word address = AddrAbsoluteY(cycles, memory);
-        accumulator = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(accumulator);
+				LoadRegister(address, accumulator);
       } break;
       case INS_LDX_ABSY: {
 				Word address = AddrAbsoluteY(cycles, memory);
-        indexRegX = ReadByte(address, cycles, memory);
-        LoadRegisterSetStatus(indexRegX);        
+				LoadRegister(address, indexRegX);
       } break;        
       case INS_LDA_INDIRECTX: {
         Byte zPAddress = FetchByte(cycles, memory);
         zPAddress += indexRegX;
         cycles--;
         Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
-        accumulator = ReadByte(effectiveAddr, cycles, memory);
-        LoadRegisterSetStatus(accumulator);
+				LoadRegister(effectiveAddr, accumulator);
       } break;
       case INS_LDA_INDIRECTY: {
         Byte zPAddress = FetchByte(cycles, memory);
         Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
         Word effectiveAddrY = effectiveAddr + indexRegY;
-        accumulator = ReadByte(effectiveAddrY, cycles, memory);
-        LoadRegisterSetStatus(accumulator);
+				LoadRegister(effectiveAddrY, accumulator);
         if ((effectiveAddrY - effectiveAddr) >= 0xFF) {
           cycles--;
         }
