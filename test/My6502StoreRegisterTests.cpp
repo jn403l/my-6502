@@ -17,7 +17,8 @@ public:
   virtual void TearDown() { ; }
 
   void TestStoreRegisterZeroPage(Byte OpcodeToTest, RegPtr RegisterToTest);
-  void TestStoreRegisterAbsolute(Byte OpcodeToTest, RegPtr RegisterToTest);  
+  void TestStoreRegisterAbsolute(Byte OpcodeToTest, RegPtr RegisterToTest);
+  void TestStoreRegisterZeroPageX(Byte OpcodeToTest, RegPtr RegisterToTest);  
 };
 
 static void VerifyUnmodifiedFlagsFromStoreRegister(const my6502::CPU &cpu, const my6502::CPU &CPUCopy) {
@@ -30,7 +31,6 @@ static void VerifyUnmodifiedFlagsFromStoreRegister(const my6502::CPU &cpu, const
   EXPECT_EQ(cpu.negativeFlag, CPUCopy.negativeFlag);
 }
 
-// void My6502LoadRegisterTests::TestLoadRegisterAbsolute(Byte OpcodeToTest, RegPtr RegisterToTest) {
 void My6502StoreRegisterTests::TestStoreRegisterZeroPage(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given
   CPU CPUCopy = cpu;
@@ -55,7 +55,7 @@ void My6502StoreRegisterTests::TestStoreRegisterAbsolute(Byte OpcodeToTest, RegP
   cpu.*RegisterToTest = 0x34;
   mem[0xFFFC] = OpcodeToTest;
   mem[0xFFFD] = 0x00;
-  mem[0xFFFD] = 0x80;  
+  mem[0xFFFE] = 0x80;  
   mem[0x8000] = 0x00;
   constexpr s32 expected_cyles = 4;
 
@@ -67,6 +67,26 @@ void My6502StoreRegisterTests::TestStoreRegisterAbsolute(Byte OpcodeToTest, RegP
   EXPECT_EQ(mem[0x8000], 0x34);
   VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
 }
+
+void My6502StoreRegisterTests::TestStoreRegisterZeroPageX(Byte OpcodeToTest, RegPtr RegisterToTest) {
+  // given
+  CPU CPUCopy = cpu;
+  cpu.*RegisterToTest = 0x34;
+  cpu.indexRegX = 0x0F;
+  mem[0xFFFC] = OpcodeToTest;
+  mem[0xFFFD] = 0x80;
+  mem[0x008F] = 0x00;
+  constexpr s32 expected_cyles = 4;
+
+  // when:
+  const s32 CyclesUsed = cpu.Execute(expected_cyles, mem);
+
+  // then:
+  EXPECT_EQ(CyclesUsed, expected_cyles);
+  EXPECT_EQ(mem[0x008F], 0x34);
+  VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
+}
+
 
 TEST_F(My6502StoreRegisterTests, STAZeroPageCanStoreTheARegisterIntoMemory) {
   TestStoreRegisterZeroPage(CPU::INS_STA_ZEROPAGE, &CPU::accumulator);
@@ -90,4 +110,94 @@ TEST_F(My6502StoreRegisterTests, STXAbsoluteCanStoreTheXRegisterIntoMemory) {
 
 TEST_F(My6502StoreRegisterTests, STYAbsoluteCanStoreTheYRegisterIntoMemory) {
   TestStoreRegisterAbsolute(CPU::INS_STY_ABSOLUTE, &CPU::indexRegY);
+}
+
+TEST_F(My6502StoreRegisterTests, STAZeroPageXCanStoreTheARegisterIntoMemory) {
+  TestStoreRegisterZeroPage(CPU::INS_STA_ZEROPAGEX, &CPU::accumulator);
+}
+
+TEST_F(My6502StoreRegisterTests, STYZeroPageYCanStoreTheYRegisterIntoMemory) {
+  TestStoreRegisterZeroPage(CPU::INS_STY_ZEROPAGEX, &CPU::indexRegY);
+}
+
+TEST_F(My6502StoreRegisterTests, STAAbsoluteXCanStoreTheARegisterIntoMemory) {
+  // given
+  CPU CPUCopy = cpu;
+  cpu.accumulator = 0x34;
+  cpu.indexRegX = 0x0F;
+  mem[0xFFFC] = CPU::INS_STX_ABSOLUTEX;
+  mem[0xFFFD] = 0x00;
+  mem[0xFFFE] = 0x80;  
+  mem[0x8000] = 0x00;
+  constexpr s32 expected_cyles = 5;
+
+  // when:
+  const s32 CyclesUsed = cpu.Execute(expected_cyles, mem);
+
+  // then:
+  EXPECT_EQ(CyclesUsed, expected_cyles);
+  EXPECT_EQ(mem[0x8000], 0x34);
+  VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
+}
+
+TEST_F(My6502StoreRegisterTests, STAAbsoluteYCanStoreTheARegisterIntoMemory) {
+  // given
+  CPU CPUCopy = cpu;
+  cpu.accumulator = 0x34;
+  cpu.indexRegY = 0x0F;
+  mem[0xFFFC] = CPU::INS_STX_ABSOLUTEY;
+  mem[0xFFFD] = 0x00;
+  mem[0xFFFE] = 0x80;  
+  mem[0x8000] = 0x00;
+  constexpr s32 expected_cyles = 5;
+
+  // when:
+  const s32 CyclesUsed = cpu.Execute(expected_cyles, mem);
+
+  // then:
+  EXPECT_EQ(CyclesUsed, expected_cyles);
+  EXPECT_EQ(mem[0x8000], 0x34);
+  VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
+}
+
+TEST_F(My6502StoreRegisterTests, STAIndirectXCanStoreTheARegisterIntoMemory) {
+  // given
+  CPU CPUCopy = cpu;
+  cpu.accumulator = 0x34;
+  cpu.indexRegX = 0x0F;
+  mem[0xFFFC] = CPU::INS_STX_INDIRECTX;
+  mem[0xFFFD] = 0x20;
+  mem[0x002F] = 0x00;
+  mem[0x0030] = 0x80;
+  mem[0x8000] = 0x00;
+  constexpr s32 expected_cyles = 6;
+
+  // when:
+  const s32 CyclesUsed = cpu.Execute(expected_cyles, mem);
+
+  // then:
+  EXPECT_EQ(CyclesUsed, expected_cyles);
+  EXPECT_EQ(mem[0x8000], 0x34);
+  VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
+}
+
+TEST_F(My6502StoreRegisterTests, STAIndirectYCanStoreTheARegisterIntoMemory) {
+  // given
+  CPU CPUCopy = cpu;
+  cpu.accumulator = 0x34;
+  cpu.indexRegY = 0x0F;
+  mem[0xFFFC] = CPU::INS_STX_INDIRECTY;
+  mem[0xFFFD] = 0x20;
+  mem[0x0020] = 0x00;
+  mem[0x0021] = 0x80;
+  mem[0x8000 + 0x0F] = 0x00;
+  constexpr s32 expected_cyles = 6;
+
+  // when:
+  const s32 CyclesUsed = cpu.Execute(expected_cyles, mem);
+
+  // then:
+  EXPECT_EQ(CyclesUsed, expected_cyles);
+  EXPECT_EQ(mem[0x8000 + 0x0F], 0x34);
+  VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
 }
