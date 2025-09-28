@@ -14,6 +14,13 @@ namespace my6502 {
 		return zeroPageAddr;
 	}
 
+	Word CPU::AddrZeroPageY(s32& cycles, Mem& memory) {
+		Byte zeroPageAddr = FetchByte(cycles, memory);
+		zeroPageAddr += indexRegY;
+		cycles--;          
+		return zeroPageAddr;
+	}        
+
 	Word CPU::AddrAbsolute(s32& cycles, Mem& memory) {
  		Word absAddr = FetchWord(cycles, memory);              
 		return absAddr;
@@ -78,6 +85,11 @@ namespace my6502 {
         Word address = AddrZeroPageX(cycles, memory);            
         indexRegY = ReadByte(address, cycles, memory);
         LoadRegisterSetStatus(indexRegY);
+      } break;
+			case INS_LDX_ZEROPY: {
+        Word address = AddrZeroPageY(cycles, memory);            
+        indexRegX = ReadByte(address, cycles, memory);
+        LoadRegisterSetStatus(indexRegX);
       } break;        
       case INS_JSR: {
         Word SubAddr = FetchWord(cycles, memory);

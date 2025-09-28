@@ -133,6 +133,8 @@ struct my6502::CPU {
   Word AddrZeroPage(s32 &cycles, Mem &memory);
   /** Addressing mode - zero page with x offset **/
   Word AddrZeroPageX(s32 &cycles, Mem &memory);
+  /** Addressing mode - zero page with y offset **/
+	Word AddrZeroPageY(s32& cycles, Mem& memory);  
   /** Addressing mode - absolute **/
   Word AddrAbsolute(s32 &cycles, Mem &memory);
   /** Addressing mode - absolute with x offset **/
