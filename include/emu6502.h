@@ -136,5 +136,7 @@ struct my6502::CPU {
   /** Addressing mode - absolute **/
   Word AddrAbsolute(s32 &cycles, Mem &memory);
   /** Addressing mode - absolute with x offset **/
-	Word AddrAbsoluteX(s32& cycles, Mem& memory);  
+  Word AddrAbsoluteX(s32 &cycles, Mem &memory);
+  /** Addressing mode - absolute with y offset **/
+  Word AddrAbsoluteY(s32 &cycles, Mem &memory);
 };

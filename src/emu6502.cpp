@@ -26,7 +26,16 @@ namespace my6502 {
 			cycles--;
 		}
 		return absAddrX;
-	}         
+	}
+
+	Word CPU::AddrAbsoluteY(s32 &cycles, Mem &memory) {
+		Word absAddr = FetchWord(cycles, memory);
+		Word absAddrY = absAddr + indexRegY;
+		if ((absAddrY - absAddr) >= 0xFF) {
+			cycles--;
+		}
+		return absAddrY;
+	}        
 
   s32 CPU::Execute(s32 cycles, Mem &memory) {
     const s32 cyclesRequested = cycles;
@@ -103,14 +112,15 @@ namespace my6502 {
         LoadRegisterSetStatus(indexRegY);        
       } break;        
       case INS_LDA_ABSY: {
-        Word AbsAddress = FetchWord(cycles, memory);
-        Word AbsAddressY = AbsAddress + indexRegY;
-        accumulator = ReadByte(AbsAddressY, cycles, memory);
+				Word address = AddrAbsoluteY(cycles, memory);
+        accumulator = ReadByte(address, cycles, memory);
         LoadRegisterSetStatus(accumulator);
-        if ((AbsAddressY - AbsAddress) >= 0xFF) {
-          cycles--;
-        }
       } break;
+      case INS_LDX_ABSY: {
+				Word address = AddrAbsoluteY(cycles, memory);
+        indexRegX = ReadByte(address, cycles, memory);
+        LoadRegisterSetStatus(indexRegX);        
+      } break;        
       case INS_LDA_INDIRECTX: {
         Byte zPAddress = FetchByte(cycles, memory);
         zPAddress += indexRegX;
