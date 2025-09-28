@@ -51,3 +51,11 @@ void My6502StoreRegisterTests::TestStoreRegisterZeroPage(Byte OpcodeToTest, RegP
 TEST_F(My6502StoreRegisterTests, STAZeroPageCanStoreTheARegisterIntoMemory) {
   TestStoreRegisterZeroPage(CPU::INS_STA_ZEROPAGE, &CPU::accumulator);
 }
+
+TEST_F(My6502StoreRegisterTests, STXZeroPageCanStoreTheARegisterIntoMemory) {
+  TestStoreRegisterZeroPage(CPU::INS_STX_ZEROPAGE, &CPU::indexRegX);
+}
+
+TEST_F(My6502StoreRegisterTests, STYZeroPageCanStoreTheARegisterIntoMemory) {
+  TestStoreRegisterZeroPage(CPU::INS_STY_ZEROPAGE, &CPU::indexRegY);
+}
