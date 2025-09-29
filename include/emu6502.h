@@ -99,6 +99,11 @@ struct my6502::CPU {
     return loByte | (hiByte << 8);
   }
 
+  void WriteByte(Byte value, Word address, s32 &cycles, Mem &memory) {
+    memory[address] = value;
+    cycles--;
+  }
+
   // LDA
   static constexpr Byte INS_LDA_IMMEDIATE = 0xA9;
 	static constexpr Byte INS_LDA_ZEROPAGE	= 0xA5;

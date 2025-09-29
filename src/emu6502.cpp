@@ -101,6 +101,42 @@ namespace my6502 {
           cycles--;
         }
       } break;
+      case INS_STA_ZEROPAGE: {
+        Word address = AddrZeroPage(cycles, memory);
+				WriteByte(accumulator, address, cycles, memory);
+      } break;
+      case INS_STX_ZEROPAGE: {
+        Word address = AddrZeroPage(cycles, memory);
+				WriteByte(indexRegX, address, cycles, memory);
+      } break;
+      case INS_STY_ZEROPAGE: {
+        Word address = AddrZeroPage(cycles, memory);
+				WriteByte(indexRegY, address, cycles, memory);
+      } break;
+      case INS_STA_ABSOLUTE: {
+        Word address = AddrAbsolute(cycles, memory);
+				WriteByte(accumulator, address, cycles, memory);
+      } break;
+      case INS_STX_ABSOLUTE: {
+        Word address = AddrAbsolute(cycles, memory);
+				WriteByte(indexRegX, address, cycles, memory);
+      } break;
+      case INS_STY_ABSOLUTE: {
+        Word address = AddrAbsolute(cycles, memory);
+				WriteByte(indexRegY, address, cycles, memory);
+      } break;
+      case INS_STA_ZEROPAGEX: {
+        Word address = AddrZeroPageX(cycles, memory);
+				WriteByte(accumulator, address, cycles, memory);
+      } break;
+      case INS_STY_ZEROPAGEX: {
+        Word address = AddrZeroPageX(cycles, memory);
+				WriteByte(indexRegY, address, cycles, memory);
+      } break;
+      case INS_STA_ABSOLUTE: {
+        Word address = AddrZeroPageX(cycles, memory);
+				WriteByte(indexRegY, address, cycles, memory);
+      } break;
       default: {
         printf("Instruction %d not handled \n", Ins);
         throw -1;

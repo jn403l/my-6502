@@ -113,11 +113,11 @@ TEST_F(My6502StoreRegisterTests, STYAbsoluteCanStoreTheYRegisterIntoMemory) {
 }
 
 TEST_F(My6502StoreRegisterTests, STAZeroPageXCanStoreTheARegisterIntoMemory) {
-  TestStoreRegisterZeroPage(CPU::INS_STA_ZEROPAGEX, &CPU::accumulator);
+  TestStoreRegisterZeroPageX(CPU::INS_STA_ZEROPAGEX, &CPU::accumulator);
 }
 
-TEST_F(My6502StoreRegisterTests, STYZeroPageYCanStoreTheYRegisterIntoMemory) {
-  TestStoreRegisterZeroPage(CPU::INS_STY_ZEROPAGEX, &CPU::indexRegY);
+TEST_F(My6502StoreRegisterTests, STYZeroPageXCanStoreTheYRegisterIntoMemory) {
+  TestStoreRegisterZeroPageX(CPU::INS_STY_ZEROPAGEX, &CPU::indexRegY);
 }
 
 TEST_F(My6502StoreRegisterTests, STAAbsoluteXCanStoreTheARegisterIntoMemory) {
