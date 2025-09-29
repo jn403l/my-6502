@@ -147,7 +147,6 @@ TEST_F(My6502StoreRegisterTests, STAAbsoluteYCanStoreTheARegisterIntoMemory) {
   mem[0xFFFC] = CPU::INS_STA_ABSOLUTEY;
   mem[0xFFFD] = 0x00;
   mem[0xFFFE] = 0x80;  
-  mem[0x8000] = 0x00;
   constexpr s32 expected_cyles = 5;
 
   // when:
@@ -155,7 +154,7 @@ TEST_F(My6502StoreRegisterTests, STAAbsoluteYCanStoreTheARegisterIntoMemory) {
 
   // then:
   EXPECT_EQ(CyclesUsed, expected_cyles);
-  EXPECT_EQ(mem[0x8000], 0x34);
+  EXPECT_EQ(mem[0x800F], 0x34);
   VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
 }
 

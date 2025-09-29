@@ -138,6 +138,11 @@ namespace my6502 {
         WriteByte(accumulator, address, cycles, memory);
 				cycles--; // TODO: where is this cycle consumed?
       } break;
+      case INS_STA_ABSOLUTEY: {
+        Word address = AddrAbsoluteY(cycles, memory);
+        WriteByte(accumulator, address, cycles, memory);
+				cycles--; // TODO: where is this cycle consumed?
+      } break;        
       default: {
         printf("Instruction %d not handled \n", Ins);
         throw -1;
