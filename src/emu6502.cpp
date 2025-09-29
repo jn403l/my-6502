@@ -133,10 +133,11 @@ namespace my6502 {
         Word address = AddrZeroPageX(cycles, memory);
 				WriteByte(indexRegY, address, cycles, memory);
       } break;
-//      case INS_STA_ABSOLUTEX: {
-//        Word address = AddrZeroPageX(cycles, memory);
-// 				WriteByte(indexRegY, address, cycles, memory);
-//      } break;
+      case INS_STA_ABSOLUTEX: {
+        Word address = AddrAbsoluteX(cycles, memory);
+        WriteByte(accumulator, address, cycles, memory);
+				cycles--; // TODO: where is this cycle consumed?
+      } break;
       default: {
         printf("Instruction %d not handled \n", Ins);
         throw -1;

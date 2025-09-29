@@ -125,10 +125,9 @@ TEST_F(My6502StoreRegisterTests, STAAbsoluteXCanStoreTheARegisterIntoMemory) {
   CPU CPUCopy = cpu;
   cpu.accumulator = 0x34;
   cpu.indexRegX = 0x0F;
-  mem[0xFFFC] = CPU::INS_STX_ABSOLUTEX;
+  mem[0xFFFC] = CPU::INS_STA_ABSOLUTEX;
   mem[0xFFFD] = 0x00;
   mem[0xFFFE] = 0x80;  
-  mem[0x8000] = 0x00;
   constexpr s32 expected_cyles = 5;
 
   // when:
@@ -136,7 +135,7 @@ TEST_F(My6502StoreRegisterTests, STAAbsoluteXCanStoreTheARegisterIntoMemory) {
 
   // then:
   EXPECT_EQ(CyclesUsed, expected_cyles);
-  EXPECT_EQ(mem[0x8000], 0x34);
+  EXPECT_EQ(mem[0x800F], 0x34);
   VerifyUnmodifiedFlagsFromStoreRegister(cpu, CPUCopy);
 }
 
@@ -145,7 +144,7 @@ TEST_F(My6502StoreRegisterTests, STAAbsoluteYCanStoreTheARegisterIntoMemory) {
   CPU CPUCopy = cpu;
   cpu.accumulator = 0x34;
   cpu.indexRegY = 0x0F;
-  mem[0xFFFC] = CPU::INS_STX_ABSOLUTEY;
+  mem[0xFFFC] = CPU::INS_STA_ABSOLUTEY;
   mem[0xFFFD] = 0x00;
   mem[0xFFFE] = 0x80;  
   mem[0x8000] = 0x00;
@@ -165,7 +164,7 @@ TEST_F(My6502StoreRegisterTests, STAIndirectXCanStoreTheARegisterIntoMemory) {
   CPU CPUCopy = cpu;
   cpu.accumulator = 0x34;
   cpu.indexRegX = 0x0F;
-  mem[0xFFFC] = CPU::INS_STX_INDIRECTX;
+  mem[0xFFFC] = CPU::INS_STA_INDIRECTX;
   mem[0xFFFD] = 0x20;
   mem[0x002F] = 0x00;
   mem[0x0030] = 0x80;
@@ -186,7 +185,7 @@ TEST_F(My6502StoreRegisterTests, STAIndirectYCanStoreTheARegisterIntoMemory) {
   CPU CPUCopy = cpu;
   cpu.accumulator = 0x34;
   cpu.indexRegY = 0x0F;
-  mem[0xFFFC] = CPU::INS_STX_INDIRECTY;
+  mem[0xFFFC] = CPU::INS_STA_INDIRECTY;
   mem[0xFFFD] = 0x20;
   mem[0x0020] = 0x00;
   mem[0x0021] = 0x80;
