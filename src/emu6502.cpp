@@ -94,14 +94,14 @@ namespace my6502 {
 				WriteByte(accumulator, address, cycles, memory);
       } break;        
       case INS_LDA_INDIRECTY: {
-        Byte zPAddress = FetchByte(cycles, memory);
-        Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
-        Word effectiveAddrY = effectiveAddr + indexRegY;
-				LoadRegister(effectiveAddrY, accumulator);
-        if ((effectiveAddrY - effectiveAddr) >= 0xFF) {
-          cycles--;
-        }
+				Word address = AddrIndirectY(cycles, memory);
+				LoadRegister(address, accumulator);
       } break;
+      case INS_STA_INDIRECTY: {
+				Word address = AddrIndirectY(cycles, memory);
+				WriteByte(accumulator, address, cycles, memory);
+				cycles--; // TODO: where is this cycle consumed?
+      } break;        
       case INS_STA_ZEROPAGE: {
         Word address = AddrZeroPage(cycles, memory);
 				WriteByte(accumulator, address, cycles, memory);
@@ -204,4 +204,14 @@ namespace my6502 {
 		return effectiveAddr;
 	}
 
+	Word CPU::AddrIndirectY(s32 &cycles, const Mem &memory) {
+		Byte zPAddress = FetchByte(cycles, memory);
+		Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
+		Word effectiveAddrY = effectiveAddr + indexRegY;
+		if ((effectiveAddrY - effectiveAddr) >= 0xFF) {
+			cycles--;
+		}
+		return effectiveAddrY;
+	}     
+        
 }
