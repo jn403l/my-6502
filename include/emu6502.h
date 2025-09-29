@@ -129,12 +129,12 @@ struct my6502::CPU {
   // STA
   static constexpr Byte INS_STA_ZEROPAGE  = 0x85;
   static constexpr Byte INS_STA_ABSOLUTE  = 0x8D;
+  static constexpr Byte INS_STA_ABSOLUTEX = 0x9D;
+  static constexpr Byte INS_STA_ABSOLUTEY = 0x99;  
   static constexpr Byte INS_STA_ZEROPAGEX = 0x95;
   // STX
   static constexpr Byte INS_STX_ZEROPAGE  = 0x86;
-  static constexpr Byte INS_STX_ABSOLUTE = 0x8E;
-  static constexpr Byte INS_STX_ABSOLUTEX = 0x9D;
-  static constexpr Byte INS_STX_ABSOLUTEY = 0x99;
+  static constexpr Byte INS_STX_ABSOLUTE  = 0x8E;
   static constexpr Byte INS_STX_INDIRECTX = 0x81;
   // STY
   static constexpr Byte INS_STY_ZEROPAGE  = 0x84;
