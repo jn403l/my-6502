@@ -87,13 +87,13 @@ struct my6502::CPU {
 		return Data;
   }  
 
-  Byte ReadByte(Word address, s32 &cycles, Mem &memory) {
+  Byte ReadByte(Word address, s32 &cycles, const Mem &memory) {
     Byte Data = memory[address];
     cycles--;
     return Data;
   }
 
-  Word ReadWord(Word address, s32 &cycles, Mem &memory) {
+  Word ReadWord(Word address, s32 &cycles, const Mem &memory) {
     Byte loByte = ReadByte(address, cycles, memory);
     Byte hiByte = ReadByte(address + 1, cycles, memory);
     return loByte | (hiByte << 8);
@@ -162,4 +162,6 @@ struct my6502::CPU {
   Word AddrAbsoluteX(s32 &cycles, const Mem &memory);
   /** Addressing mode - absolute with y offset **/
   Word AddrAbsoluteY(s32 &cycles, const Mem &memory);
+  /** Addressing mode - indirect x | indexed indirect **/
+	Word AddrIndirectX(s32 &cycles, const Mem &memory);
 };
