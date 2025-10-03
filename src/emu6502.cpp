@@ -53,7 +53,7 @@ namespace my6502 {
       case INS_JSR: {
         Word SubAddr = FetchWord(cycles, memory);
         // TODO: increment stack pointer
-        memory.WriteWord(programCounter - 1, stackPointer, cycles);
+        WriteWord(programCounter - 1, stackPointer, cycles, memory);
         programCounter = SubAddr;
         cycles--;
       } break;

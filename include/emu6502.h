@@ -36,13 +36,6 @@ struct my6502::Mem {
 		return Data[address];
 	}
 
-	void WriteWord(Word value,
-								 u32 address,
-								 s32& cycles) {
-		Data[address]			= value & 0xFF;
-		Data[address + 1] = (value >> 8);
-		cycles -= 2;
-	}
 };
 
 struct my6502::CPU {
@@ -99,10 +92,21 @@ struct my6502::CPU {
     return loByte | (hiByte << 8);
   }
 
+  /* write 1 byte to memory*/
   void WriteByte(Byte value, Word address, s32 &cycles, Mem &memory) {
     memory[address] = value;
     cycles--;
   }
+
+  /* write 2 byte to memory */
+ 	void WriteWord(Word value,
+								 Word address,
+								 s32& cycles,
+                 Mem &memory) {
+		memory[address]			= value & 0xFF;
+		memory[address + 1] = (value >> 8);
+		cycles -= 2;
+	}
 
   // LDA
   static constexpr Byte INS_LDA_IMMEDIATE = 0xA9;
