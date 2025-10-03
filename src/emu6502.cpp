@@ -98,9 +98,8 @@ namespace my6502 {
 				LoadRegister(address, accumulator);
       } break;
       case INS_STA_INDIRECTY: {
-				Word address = AddrIndirectY(cycles, memory);
+				Word address = AddrIndirectY_6(cycles, memory);
 				WriteByte(accumulator, address, cycles, memory);
-				cycles--; // TODO: where is this cycle consumed?
       } break;        
       case INS_STA_ZEROPAGE: {
         Word address = AddrZeroPage(cycles, memory);
@@ -135,14 +134,12 @@ namespace my6502 {
 				WriteByte(indexRegY, address, cycles, memory);
       } break;
       case INS_STA_ABSOLUTEX: {
-        Word address = AddrAbsoluteX(cycles, memory);
+        Word address = AddrAbsoluteX_5(cycles, memory);
         WriteByte(accumulator, address, cycles, memory);
-				cycles--; // TODO: where is this cycle consumed?
       } break;
       case INS_STA_ABSOLUTEY: {
-        Word address = AddrAbsoluteY(cycles, memory);
+        Word address = AddrAbsoluteY_5(cycles, memory);
         WriteByte(accumulator, address, cycles, memory);
-				cycles--; // TODO: where is this cycle consumed?
       } break;
       default: {
         printf("Instruction %d not handled \n", Ins);
@@ -187,12 +184,26 @@ namespace my6502 {
 		return absAddrX;
 	}
 
+	Word CPU::AddrAbsoluteX_5(s32& cycles, const Mem& memory) {
+		Word absAddr = FetchWord(cycles, memory);
+		Word absAddrX = absAddr + indexRegX;
+    cycles--;
+		return absAddrX;
+	}
+
 	Word CPU::AddrAbsoluteY(s32 &cycles, const Mem &memory) {
 		Word absAddr = FetchWord(cycles, memory);
 		Word absAddrY = absAddr + indexRegY;
 		if ((absAddrY - absAddr) >= 0xFF) {
 			cycles--;
 		}
+		return absAddrY;
+	}
+
+	Word CPU::AddrAbsoluteY_5(s32 &cycles, const Mem &memory) {
+		Word absAddr = FetchWord(cycles, memory);
+		Word absAddrY = absAddr + indexRegY;
+    cycles--;
 		return absAddrY;
 	}
 
@@ -211,6 +222,14 @@ namespace my6502 {
 		if ((effectiveAddrY - effectiveAddr) >= 0xFF) {
 			cycles--;
 		}
+		return effectiveAddrY;
+	}
+
+	Word CPU::AddrIndirectY_6(s32 &cycles, const Mem &memory) {
+		Byte zPAddress = FetchByte(cycles, memory);
+		Word effectiveAddr = ReadWord(zPAddress, cycles, memory);
+		Word effectiveAddrY = effectiveAddr + indexRegY;
+    cycles--;
 		return effectiveAddrY;
 	}     
         

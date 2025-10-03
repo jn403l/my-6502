@@ -164,10 +164,22 @@ struct my6502::CPU {
   Word AddrAbsolute(s32 &cycles, const Mem &memory);
   /** Addressing mode - absolute with x offset **/
   Word AddrAbsoluteX(s32 &cycles, const Mem &memory);
+  /** Addressing mode - absolute with x offset
+   *  - always take a cycle for the x page boundary
+   *  - See STA Absolute, X **/
+  Word AddrAbsoluteX_5(s32 &cycles, const Mem &memory);
   /** Addressing mode - absolute with y offset **/
   Word AddrAbsoluteY(s32 &cycles, const Mem &memory);
+  /** Addressing mode - absolute with y offset
+   *  - always take a cycle for the y page boundary
+   *  - See STA Absolute, Y **/
+  Word AddrAbsoluteY_5(s32 &cycles, const Mem &memory);
   /** Addressing mode - indirect x | indexed indirect **/
   Word AddrIndirectX(s32 &cycles, const Mem &memory);
   /** Addressing mode - indirect y | indirect indexed **/
   Word AddrIndirectY(s32 &cycles, const Mem &memory);
+  /** Addressing mode - indirect y | indirect indexed
+   *  - always take a cycle for the y page boundary
+   *  - See STA Indirect, Y **/
+  Word AddrIndirectY_6(s32 &cycles, const Mem &memory);
 };
