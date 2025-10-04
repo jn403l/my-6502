@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <emu6502.h>
 
-class My6502LoadRegisterTests : public testing::Test {
+class My6502JumpsAndCallsTest : public testing::Test {
 public:
   using Byte   = my6502::Byte;
   using CPU    = my6502::CPU;
@@ -18,12 +18,21 @@ public:
 
 };
 
+TEST_F(My6502JumpsAndCallsTest, CanJumpToASubroutineAndJumpBackAgain) {
+  CPU CPUCopy = cpu;
+  cpu.Reset(0xFF00, mem);
+  mem[0xFF00] = CPU::INS_JSR;
+  mem[0xFF01] = 0x00;
+  mem[0xFF02] = 0x80;
+  mem[0x8000] = CPU::INS_RTS;
+  mem[0xFF03] = CPU::INS_LDA_IMMEDIATE;
+  mem[0xFF04] = 0x69;
+  constexpr s32 expected_cyles = 6 + 6 + 2;
 
-static void VerifyUnmodifiedFlagsFromLoadRegister(const my6502::CPU &cpu, const my6502::CPU &CPUCopy) {
-	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
-	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
-	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
-	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
-	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);
+  // when:
+  const s32 CyclesUsed = cpu.Execute(expected_cyles, mem);
+
+  // then:
+  EXPECT_EQ(CyclesUsed, expected_cyles);
+  EXPECT_EQ(cpu.accumulator, 0x69);
 }
-

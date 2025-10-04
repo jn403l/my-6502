@@ -55,8 +55,12 @@ struct my6502::CPU {
   Byte negativeFlag : 1;
 
   void Reset(Mem& memory) {
-    programCounter = 0xFFFC;
-    stackPointer = 0x0100;
+    Reset(0xFFFC, memory);
+  }
+
+  void Reset(Word ResetVector, Mem &memory) {
+    programCounter = ResetVector;
+    stackPointer = 0xFF;
     carryFlag = zeroFlag = interruptDisable = decimalMode = breakCommand = overflowFlag = negativeFlag = 0;
     accumulator = indexRegX = indexRegY = 0;
 		memory.Initialize();
@@ -112,7 +116,6 @@ struct my6502::CPU {
   static constexpr Byte INS_LDA_IMMEDIATE = 0xA9;
 	static constexpr Byte INS_LDA_ZEROPAGE	= 0xA5;
 	static constexpr Byte INS_LDA_ZEROPX		= 0xB5;
-  static constexpr Byte INS_JSR           = 0x20;
   static constexpr Byte INS_LDA_ABS       = 0xAD;
   static constexpr Byte INS_LDA_ABSX      = 0xBD;
   static constexpr Byte INS_LDA_ABSY      = 0xB9;
@@ -145,6 +148,9 @@ struct my6502::CPU {
   static constexpr Byte INS_STY_ZEROPAGE  = 0x84;
   static constexpr Byte INS_STY_ABSOLUTE  = 0x8C;
   static constexpr Byte INS_STY_ZEROPAGEX = 0x94;
+
+  static constexpr Byte INS_JSR = 0x20;
+  static constexpr Byte INS_RTS = 0x60;
 
   /** Sets the correct process status after a load register instruction **/
 	void LoadRegisterSetStatus(Byte Register) {
