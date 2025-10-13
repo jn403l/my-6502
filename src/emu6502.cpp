@@ -52,11 +52,15 @@ namespace my6502 {
       } break;        
       case INS_JSR: {
         Word SubAddr = FetchWord(cycles, memory);
-        // TODO: increment stack pointer
-        WriteWord(programCounter - 1, stackPointer, cycles, memory);
+				PushPCToStack(cycles, memory);
         programCounter = SubAddr;
         cycles--;
       } break;
+			case INS_RTS: {
+				Word ReturnAddress = PopWordFromStack(cycles, memory);
+				programCounter = ReturnAddress + 1;
+				cycles -= 2;
+			} break;
       case INS_LDA_ABS: {
         Word address = AddrAbsolute(cycles, memory);
 				LoadRegister(address, accumulator);

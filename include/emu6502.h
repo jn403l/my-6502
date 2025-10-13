@@ -41,7 +41,7 @@ struct my6502::Mem {
 struct my6502::CPU {
 
   Word programCounter;
-  Word stackPointer;
+  Byte stackPointer;
 
   Byte accumulator, indexRegX, indexRegY;
 
@@ -111,6 +111,24 @@ struct my6502::CPU {
 		memory[address + 1] = (value >> 8);
 		cycles -= 2;
 	}
+
+  /* return the stackpointer as a full 16-bit address (in the first page) */
+  Word SPToAddress() const {
+    return 0x1000 | stackPointer;
+  }
+
+  /* push the PC-1 onto the stack */
+  void PushPCToStack( s32& cycles, Mem& memory) {
+    WriteWord(programCounter - 1, SPToAddress() - 1, cycles, memory);
+		stackPointer -= 2;
+  }
+
+  Word PopWordFromStack( s32& cycles, Mem& memory) {
+		Word valueFromStack = ReadWord(SPToAddress() + 1, cycles, memory);
+    stackPointer += 2;
+    cycles--;
+    return valueFromStack;
+  }
 
   // LDA
   static constexpr Byte INS_LDA_IMMEDIATE = 0xA9;
