@@ -35,4 +35,21 @@ TEST_F(My6502JumpsAndCallsTest, CanJumpToASubroutineAndJumpBackAgain) {
   // then:
   EXPECT_EQ(CyclesUsed, expected_cyles);
   EXPECT_EQ(cpu.accumulator, 0x69);
+	EXPECT_EQ(cpu.stackPointer, CPUCopy.stackPointer);
+}
+
+TEST_F(My6502JumpsAndCallsTest, JSRDoesNotAffectTheProcessorStatus) {
+  CPU CPUCopy = cpu;
+  cpu.Reset(0xFF00, mem);
+  mem[0xFF00] = CPU::INS_JSR;
+  mem[0xFF01] = 0x00;
+  mem[0xFF02] = 0x80;
+  constexpr s32 expected_cyles = 6;
+
+  // when:
+  const s32 CyclesUsed = cpu.Execute(expected_cyles, mem);
+
+  // then:
+  EXPECT_EQ(CyclesUsed, expected_cyles);
+	EXPECT_EQ(cpu.processorStatus, CPUCopy.processorStatus);
 }

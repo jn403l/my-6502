@@ -54,6 +54,10 @@ struct my6502::CPU {
   Byte overflowFlag : 1;
   Byte negativeFlag : 1;
 
+  union {
+    Byte processorStatus;
+  };
+
   void Reset(Mem& memory) {
     Reset(0xFFFC, memory);
   }
