@@ -38,11 +38,11 @@ public:
 
 
 static void VerifyUnmodifiedFlagsFromLoadRegister(const my6502::CPU &cpu, const my6502::CPU &CPUCopy) {
-	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
-	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
-	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
-	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
-	EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);
+	EXPECT_EQ(cpu.Flag.carryFlag, CPUCopy.Flag.carryFlag);
+	EXPECT_EQ(cpu.Flag.breakCommand, CPUCopy.Flag.breakCommand);
+	EXPECT_EQ(cpu.Flag.decimalMode, CPUCopy.Flag.decimalMode);
+	EXPECT_EQ(cpu.Flag.interruptDisable, CPUCopy.Flag.interruptDisable);
+	EXPECT_EQ(cpu.Flag.overflowFlag, CPUCopy.Flag.overflowFlag);
 }
 
 TEST_F(My6502LoadRegisterTests, CPUDoesNothingWhenWeExecuteZeroCycles) {
@@ -80,8 +80,8 @@ void My6502LoadRegisterTests::TestLoadRegisterImmediate(Byte OpcodeToTest, RegPt
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x84);
 	EXPECT_EQ(CyclesUsed, 2);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_TRUE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_TRUE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);  
 }
 
@@ -110,8 +110,8 @@ TEST_F(My6502LoadRegisterTests, LDAImmediateCanAffectTheZeroFlag) {
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x0);
 	EXPECT_EQ(CyclesUsed, 2);
-	EXPECT_TRUE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_TRUE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
@@ -130,8 +130,8 @@ void My6502LoadRegisterTests::TestLoadRegisterZeroPage(Byte OpcodeToTest, RegPtr
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
 	EXPECT_EQ(CyclesUsed, 3);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
   VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
@@ -163,8 +163,8 @@ void My6502LoadRegisterTests::TestLoadRegisterZeroPageX(Byte OpcodeToTest, RegPt
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
 	EXPECT_EQ(CyclesUsed, 4);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
@@ -184,8 +184,8 @@ void My6502LoadRegisterTests::TestLoadRegisterZeroPageY(Byte OpcodeToTest, RegPt
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
 	EXPECT_EQ(CyclesUsed, 4);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
@@ -218,13 +218,13 @@ TEST_F(My6502LoadRegisterTests, LDAZeroPageXCanLoadAValueIntoTheARegisterWhenItW
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x69);
 	EXPECT_EQ(CyclesUsed, 4);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);        
 }
 void My6502LoadRegisterTests::TestLoadRegisterAbsolute(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
-  cpu.zeroFlag = cpu.negativeFlag = true;
+  cpu.Flag.zeroFlag = cpu.Flag.negativeFlag = true;
   mem[0XFFFC] = OpcodeToTest;
   mem[0XFFFD] = 0x80;
   mem[0xFFFE] = 0x44; // 0x4480
@@ -238,8 +238,8 @@ void My6502LoadRegisterTests::TestLoadRegisterAbsolute(Byte OpcodeToTest, RegPtr
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
 	EXPECT_EQ(CyclesUsed, expected_cycles);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);        
 }
 
@@ -260,7 +260,7 @@ TEST_F(My6502LoadRegisterTests, LDYAbsoluteCanLoadAValueIntoTheYRegister) {
 
 void My6502LoadRegisterTests::TestLoadRegisterAbsoluteX(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
-  cpu.zeroFlag = cpu.negativeFlag = true;
+  cpu.Flag.zeroFlag = cpu.Flag.negativeFlag = true;
 	cpu.indexRegX = 1;
   mem[0XFFFC] = OpcodeToTest;
   mem[0XFFFD] = 0x80;
@@ -275,14 +275,14 @@ void My6502LoadRegisterTests::TestLoadRegisterAbsoluteX(Byte OpcodeToTest, RegPt
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
 	EXPECT_EQ(CyclesUsed, expected_cycles);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
 void My6502LoadRegisterTests::TestLoadRegisterAbsoluteY(Byte OpcodeToTest, RegPtr RegisterToTest) {
   // given:
-  cpu.zeroFlag = cpu.negativeFlag = true;
+  cpu.Flag.zeroFlag = cpu.Flag.negativeFlag = true;
 	cpu.indexRegY = 1;
   mem[0XFFFC] = OpcodeToTest;
   mem[0XFFFD] = 0x80;
@@ -297,8 +297,8 @@ void My6502LoadRegisterTests::TestLoadRegisterAbsoluteY(Byte OpcodeToTest, RegPt
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
 	EXPECT_EQ(CyclesUsed, expected_cycles);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
@@ -334,8 +334,8 @@ void My6502LoadRegisterTests::TestLoadRegisterAbsoluteXWhenCrossingPage(Byte Opc
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
 	EXPECT_EQ(CyclesUsed, expected_cycles);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
@@ -370,8 +370,8 @@ void My6502LoadRegisterTests::TestLoadRegisterAbsoluteYWhenCrossingPage(Byte Opc
 	// then:
 	EXPECT_EQ(cpu.*RegisterToTest, 0x69);
 	EXPECT_EQ(CyclesUsed, expected_cycles);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
@@ -385,7 +385,7 @@ TEST_F(My6502LoadRegisterTests, LDXAbsoluteYLoadAValueIntoTheXRegisterWhenItCros
 
 TEST_F(My6502LoadRegisterTests, LDAIndirectXCanLoadAValueIntoTheARegister) {
   // given:
-  cpu.zeroFlag = cpu.negativeFlag = true;  
+  cpu.Flag.zeroFlag = cpu.Flag.negativeFlag = true;  
 	cpu.indexRegX = 0x04;
   mem[0XFFFC] = CPU::INS_LDA_INDIRECTX;
   mem[0XFFFD] = 0x02;
@@ -401,14 +401,14 @@ TEST_F(My6502LoadRegisterTests, LDAIndirectXCanLoadAValueIntoTheARegister) {
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x30);
 	EXPECT_EQ(CyclesUsed, expected_cycles);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
 TEST_F(My6502LoadRegisterTests, LDAIndirectYCanLoadAValueIntoTheARegister) {
   // given:
-  cpu.zeroFlag = cpu.negativeFlag = true;  
+  cpu.Flag.zeroFlag = cpu.Flag.negativeFlag = true;  
  	cpu.indexRegY = 0x04;
   mem[0XFFFC] = CPU::INS_LDA_INDIRECTY;
   mem[0XFFFD] = 0x02;
@@ -424,8 +424,8 @@ TEST_F(My6502LoadRegisterTests, LDAIndirectYCanLoadAValueIntoTheARegister) {
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x69);
 	EXPECT_EQ(CyclesUsed, expected_cycles);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
 	VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 
@@ -446,8 +446,8 @@ TEST_F(My6502LoadRegisterTests, LDAIndirectYCanLoadAValueIntoTheARegisterWhenItC
 	// then:
 	EXPECT_EQ(cpu.accumulator, 0x69);
 	EXPECT_EQ(CyclesUsed, expected_cycles);
-	EXPECT_FALSE(cpu.zeroFlag);
-	EXPECT_FALSE(cpu.negativeFlag);
+	EXPECT_FALSE(cpu.Flag.zeroFlag);
+	EXPECT_FALSE(cpu.Flag.negativeFlag);
   VerifyUnmodifiedFlagsFromLoadRegister(cpu, CPUCopy);
 }
 

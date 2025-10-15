@@ -22,13 +22,13 @@ public:
 };
 
 static void VerifyUnmodifiedFlagsFromStoreRegister(const my6502::CPU &cpu, const my6502::CPU &CPUCopy) {
-	EXPECT_EQ(cpu.carryFlag, CPUCopy.carryFlag);
-	EXPECT_EQ(cpu.breakCommand, CPUCopy.breakCommand);
-	EXPECT_EQ(cpu.decimalMode, CPUCopy.decimalMode);
-	EXPECT_EQ(cpu.interruptDisable, CPUCopy.interruptDisable);
-  EXPECT_EQ(cpu.overflowFlag, CPUCopy.overflowFlag);
-  EXPECT_EQ(cpu.zeroFlag, CPUCopy.zeroFlag);
-  EXPECT_EQ(cpu.negativeFlag, CPUCopy.negativeFlag);
+	EXPECT_EQ(cpu.Flag.carryFlag, CPUCopy.Flag.carryFlag);
+	EXPECT_EQ(cpu.Flag.breakCommand, CPUCopy.Flag.breakCommand);
+	EXPECT_EQ(cpu.Flag.decimalMode, CPUCopy.Flag.decimalMode);
+	EXPECT_EQ(cpu.Flag.interruptDisable, CPUCopy.Flag.interruptDisable);
+  EXPECT_EQ(cpu.Flag.overflowFlag, CPUCopy.Flag.overflowFlag);
+  EXPECT_EQ(cpu.Flag.zeroFlag, CPUCopy.Flag.zeroFlag);
+  EXPECT_EQ(cpu.Flag.negativeFlag, CPUCopy.Flag.negativeFlag);
 }
 
 void My6502StoreRegisterTests::TestStoreRegisterZeroPage(Byte OpcodeToTest, RegPtr RegisterToTest) {

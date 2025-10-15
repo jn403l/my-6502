@@ -13,6 +13,7 @@ namespace my6502 {
 
   struct Mem;
   struct CPU;
+  struct StatusFlags;
 }
 
 
@@ -38,6 +39,16 @@ struct my6502::Mem {
 
 };
 
+struct my6502::StatusFlags {
+  Byte carryFlag : 1;
+  Byte zeroFlag : 1;
+  Byte interruptDisable : 1;
+  Byte decimalMode : 1;
+  Byte breakCommand : 1;
+  Byte overflowFlag : 1;
+  Byte negativeFlag : 1;  
+};
+
 struct my6502::CPU {
 
   Word programCounter;
@@ -46,16 +57,17 @@ struct my6502::CPU {
   Byte accumulator, indexRegX, indexRegY;
 
 	//TODO: implement in a single byte(?)
-  Byte carryFlag : 1;
-  Byte zeroFlag : 1;
-  Byte interruptDisable : 1;
-  Byte decimalMode : 1;
-  Byte breakCommand : 1;
-  Byte overflowFlag : 1;
-  Byte negativeFlag : 1;
+  // Byte carryFlag : 1;
+  // Byte zeroFlag : 1;
+  // Byte interruptDisable : 1;
+  // Byte decimalMode : 1;
+  // Byte breakCommand : 1;
+  // Byte overflowFlag : 1;
+  // Byte negativeFlag : 1;
 
-  union {
+  union { // processor status
     Byte processorStatus;
+    StatusFlags Flag;
   };
 
   void Reset(Mem& memory) {
@@ -65,7 +77,7 @@ struct my6502::CPU {
   void Reset(Word ResetVector, Mem &memory) {
     programCounter = ResetVector;
     stackPointer = 0xFF;
-    carryFlag = zeroFlag = interruptDisable = decimalMode = breakCommand = overflowFlag = negativeFlag = 0;
+    Flag.carryFlag = Flag.zeroFlag = Flag.interruptDisable = Flag.decimalMode = Flag.breakCommand = Flag.overflowFlag = Flag.negativeFlag = 0;
     accumulator = indexRegX = indexRegY = 0;
 		memory.Initialize();
   }
@@ -176,8 +188,8 @@ struct my6502::CPU {
 
   /** Sets the correct process status after a load register instruction **/
 	void LoadRegisterSetStatus(Byte Register) {
-		zeroFlag = (Register == 0);
-		negativeFlag = (Register & 0b10000000) > 0;
+		Flag.zeroFlag = (Register == 0);
+		Flag.negativeFlag = (Register & 0b10000000) > 0;
   }
 
   /** return the number of cycles used **/
